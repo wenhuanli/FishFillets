@@ -22,7 +22,7 @@ DemoInput::DemoInput(GameState *demo)
     : GameInput(demo)
 {
     KeyDesc key_quit(KEY_QUIT, "quit");
-    m_keymap->registerKey(KeyStroke(SDLK_SPACE, KMOD_NONE), key_quit);
+    m_keymap->registerKey(KeyStroke(SDLK_SPACE, SDL_KMOD_NONE), key_quit);
 }
 //-----------------------------------------------------------------
 void

@@ -20,7 +20,7 @@
 #include "OptionAgent.h"
 #include "SysVideo.h"
 
-#include "SDL_image.h"
+#include "SDL3_image/SDL_image.h"
 #include <stdlib.h> // atexit()
 
 //-----------------------------------------------------------------
@@ -32,17 +32,18 @@
     void
 VideoAgent::own_init()
 {
+    m_window = NULL;
     m_screen = NULL;
     m_fullscreen = false;
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+    if (!SDL_Init(SDL_INIT_VIDEO)) {
         throw SDLException(ExInfo("Init"));
     }
     atexit(SDL_Quit);
 
-    setIcon(Path::dataReadPath("images/icon.png"));
-
     registerWatcher("fullscreen");
     initVideoMode();
+
+    setIcon(Path::dataReadPath("images/icon.png"));
 }
 //-----------------------------------------------------------------
 /**
@@ -53,7 +54,7 @@ VideoAgent::own_init()
 VideoAgent::own_update()
 {
     drawOn(m_screen);
-    SDL_Flip(m_screen);
+    SDL_UpdateWindowSurface(m_window);
 }
 //-----------------------------------------------------------------
 /**
@@ -79,8 +80,10 @@ VideoAgent::setIcon(const Path &file)
                 .addInfo("file", file.getNative()));
     }
 
-    SDL_WM_SetIcon(icon, NULL);
-    SDL_FreeSurface(icon);
+    if (m_window) {
+        SDL_SetWindowIcon(m_window, icon);
+    }
+    SDL_DestroySurface(icon);
 }
 
 //-----------------------------------------------------------------
@@ -97,56 +100,66 @@ VideoAgent::initVideoMode()
     OptionAgent *options = OptionAgent::agent();
     int screen_width = options->getAsInt("screen_width", 640);
     int screen_height = options->getAsInt("screen_height", 480);
+    std::string caption = options->getParam("caption", "A game");
 
-    SysVideo::setCaption(options->getParam("caption", "A game"));
-    if (NULL == m_screen
+    if (NULL == m_window
             || m_screen->w != screen_width
             || m_screen->h != screen_height)
     {
-        changeVideoMode(screen_width, screen_height);
+        changeVideoMode(screen_width, screen_height, caption);
+    }
+    else {
+        SysVideo::setCaption(m_window, caption);
     }
 }
 //-----------------------------------------------------------------
 /**
  * Init new video mode.
- * NOTE: m_screen pointer will change
+ * NOTE: m_window and m_screen pointers will change
  */
     void
-VideoAgent::changeVideoMode(int screen_width, int screen_height)
+VideoAgent::changeVideoMode(int screen_width, int screen_height,
+        const std::string &caption)
 {
     OptionAgent *options = OptionAgent::agent();
-    int screen_bpp = options->getAsInt("screen_bpp", 32);
-    int videoFlags = getVideoFlags();
+    SDL_WindowFlags videoFlags = getVideoFlags();
     m_fullscreen = options->getAsBool("fullscreen", false);
     if (m_fullscreen) {
-        videoFlags |= SDL_FULLSCREEN;
+        videoFlags |= SDL_WINDOW_FULLSCREEN;
     }
 
-    //TODO: check VideoModeOK and available ListModes
-    SDL_Surface *newScreen =
-        SDL_SetVideoMode(screen_width, screen_height, screen_bpp, videoFlags);
-    if (NULL == newScreen && (videoFlags & SDL_FULLSCREEN)) {
+    if (m_window) {
+        SDL_DestroyWindow(m_window);
+        m_window = NULL;
+        m_screen = NULL;
+    }
+
+    SDL_Window *newWindow =
+        SDL_CreateWindow(caption.c_str(), screen_width, screen_height, videoFlags);
+    if (NULL == newWindow && (videoFlags & SDL_WINDOW_FULLSCREEN)) {
         LOG_WARNING(ExInfo("unable to use fullscreen resolution, trying windowed")
                 .addInfo("width", screen_width)
-                .addInfo("height", screen_height)
-                .addInfo("bpp", screen_bpp));
+                .addInfo("height", screen_height));
 
-        videoFlags = videoFlags & ~SDL_FULLSCREEN;
-        newScreen = SDL_SetVideoMode(screen_width, screen_height, screen_bpp,
-                videoFlags);
+        videoFlags = videoFlags & ~SDL_WINDOW_FULLSCREEN;
+        newWindow = SDL_CreateWindow(caption.c_str(), screen_width,
+                screen_height, videoFlags);
     }
 
-    if (newScreen) {
-        m_screen = newScreen;
+    if (newWindow) {
+        m_window = newWindow;
+        m_screen = SDL_GetWindowSurface(m_window);
+        if (NULL == m_screen) {
+            throw SDLException(ExInfo("GetWindowSurface"));
+        }
         //NOTE: must be two times to change MouseState
-        SDL_WarpMouse(screen_width / 2, screen_height / 2);
-        SDL_WarpMouse(screen_width / 2, screen_height / 2);
+        SDL_WarpMouseInWindow(m_window, screen_width / 2.0f, screen_height / 2.0f);
+        SDL_WarpMouseInWindow(m_window, screen_width / 2.0f, screen_height / 2.0f);
     }
     else {
-        throw SDLException(ExInfo("SetVideoMode")
+        throw SDLException(ExInfo("CreateWindow")
                 .addInfo("width", screen_width)
-                .addInfo("height", screen_height)
-                .addInfo("bpp", screen_bpp));
+                .addInfo("height", screen_height));
     }
 }
 //-----------------------------------------------------------------
@@ -154,15 +167,10 @@ VideoAgent::changeVideoMode(int screen_width, int screen_height)
  * Obtain video information about best video mode.
  * @return best video flags
  */
-    int
+    SDL_WindowFlags
 VideoAgent::getVideoFlags()
 {
-    int videoFlags  = 0;
-    videoFlags |= SDL_HWPALETTE;
-    videoFlags |= SDL_ANYFORMAT;
-    videoFlags |= SDL_SWSURFACE;
-
-    return videoFlags;
+    return 0;
 }
 //-----------------------------------------------------------------
 /**
@@ -171,13 +179,15 @@ VideoAgent::getVideoFlags()
     void
 VideoAgent::toggleFullScreen()
 {
-    int success = SDL_WM_ToggleFullScreen(m_screen);
+    bool success = SDL_SetWindowFullscreen(m_window, !m_fullscreen);
     if (success) {
         m_fullscreen = !m_fullscreen;
+        m_screen = SDL_GetWindowSurface(m_window);
     }
     else {
         //NOTE: some platforms need reinit video
-        changeVideoMode(m_screen->w, m_screen->h);
+        changeVideoMode(m_screen->w, m_screen->h,
+                OptionAgent::agent()->getParam("caption", "A game"));
     }
 }
 //-----------------------------------------------------------------

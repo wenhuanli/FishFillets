@@ -20,25 +20,25 @@
 LevelInput::LevelInput(Level *level)
     : GameInput(level)
 {
-    m_keymap->registerKey(KeyStroke(SDLK_SPACE, KMOD_NONE),
+    m_keymap->registerKey(KeyStroke(SDLK_SPACE, SDL_KMOD_NONE),
             KeyDesc(KEY_SWITCH, "switch"));
-    m_keymap->registerKey(KeyStroke(SDLK_F2, KMOD_NONE),
+    m_keymap->registerKey(KeyStroke(SDLK_F2, SDL_KMOD_NONE),
             KeyDesc(KEY_SAVE, "save"));
-    m_keymap->registerKey(KeyStroke(SDLK_F3, KMOD_NONE),
+    m_keymap->registerKey(KeyStroke(SDLK_F3, SDL_KMOD_NONE),
             KeyDesc(KEY_LOAD, "load"));
-    m_keymap->registerKey(KeyStroke(SDLK_BACKSPACE, KMOD_NONE),
+    m_keymap->registerKey(KeyStroke(SDLK_BACKSPACE, SDL_KMOD_NONE),
             KeyDesc(KEY_RESTART, "restart"));
-    m_keymap->registerKey(KeyStroke(SDLK_F5, KMOD_NONE),
+    m_keymap->registerKey(KeyStroke(SDLK_F5, SDL_KMOD_NONE),
             KeyDesc(KEY_SHOW_STEPS, "show number of steps"));
 
     KeyDesc undo = KeyDesc(KEY_UNDO, "undo");
-    m_keymap->registerKey(KeyStroke(SDLK_MINUS, KMOD_NONE), undo);
-    m_keymap->registerKey(KeyStroke(SDLK_KP_MINUS, KMOD_NONE), undo);
+    m_keymap->registerKey(KeyStroke(SDLK_MINUS, SDL_KMOD_NONE), undo);
+    m_keymap->registerKey(KeyStroke(SDLK_KP_MINUS, SDL_KMOD_NONE), undo);
 
     KeyDesc redo = KeyDesc(KEY_REDO, "redo");
-    m_keymap->registerKey(KeyStroke(SDLK_PLUS, KMOD_NONE), redo);
-    m_keymap->registerKey(KeyStroke(SDLK_EQUALS, KMOD_NONE), redo);
-    m_keymap->registerKey(KeyStroke(SDLK_KP_PLUS, KMOD_NONE), redo);
+    m_keymap->registerKey(KeyStroke(SDLK_PLUS, SDL_KMOD_NONE), redo);
+    m_keymap->registerKey(KeyStroke(SDLK_EQUALS, SDL_KMOD_NONE), redo);
+    m_keymap->registerKey(KeyStroke(SDLK_KP_PLUS, SDL_KMOD_NONE), redo);
 }
 //-----------------------------------------------------------------
 Level *

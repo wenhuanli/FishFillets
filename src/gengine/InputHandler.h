@@ -19,19 +19,19 @@ class MouseStroke;
  */
 class InputHandler : public InputProvider, public NoCopy {
     private:
-        Uint8 *m_pressed;
-        Uint8 m_buttons;
+        const bool *m_pressed;
+        Uint32 m_buttons;
         V2 m_mouseLoc;
     public:
         InputHandler();
-        void takePressed(Uint8 *pressed) { m_pressed = pressed; }
-        void mouseState(const V2 &loc, Uint8 buttons);
+        void takePressed(const bool *pressed) { m_pressed = pressed; }
+        void mouseState(const V2 &loc, Uint32 buttons);
 
         virtual void keyEvent(const KeyStroke &/*stroke*/) {}
         virtual void keyUp(const KeyStroke &/*stroke*/) {}
         virtual void mouseEvent(const MouseStroke &/*buttons*/) {}
 
-        virtual bool isPressed(SDLKey key) const;
+        virtual bool isPressed(SDL_Keycode key) const;
         virtual bool isLeftPressed() const;
         virtual bool isMiddlePressed() const;
         virtual bool isRightPressed() const;

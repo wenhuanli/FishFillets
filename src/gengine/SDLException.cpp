@@ -8,7 +8,7 @@
  */
 #include "SDLException.h"
 
-#include "SDL.h"
+#include "SDL3/SDL.h"
 
 //-----------------------------------------------------------------
 /**

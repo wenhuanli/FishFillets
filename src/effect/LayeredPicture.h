@@ -3,7 +3,7 @@
 
 #include "Picture.h"
 
-#include "SDL.h"
+#include "SDL3/SDL.h"
 
 /**
  * Picture with two layers and color mask.

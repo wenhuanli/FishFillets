@@ -64,7 +64,7 @@ DemoMode::own_cleanState()
 {
     //NOTE: loaded dialogs are released by ~Planner()
     if (m_surfaceBuffer) {
-        SDL_FreeSurface(m_surfaceBuffer);
+        SDL_DestroySurface(m_surfaceBuffer);
         m_surfaceBuffer = NULL;
     }
     if (m_display) {

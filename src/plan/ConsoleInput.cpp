@@ -26,11 +26,11 @@ ConsoleInput::ConsoleInput(KeyConsole *console)
     KeyDesc key_clear(KEY_CLEAR, "clear");
     KeyDesc key_enter(KEY_ENTER, "enter");
 
-    m_keymap->registerKey(KeyStroke(SDLK_UP, KMOD_NONE), key_history);
-    m_keymap->registerKey(KeyStroke(SDLK_BACKSPACE, KMOD_NONE), key_backspace);
-    m_keymap->registerKey(KeyStroke(SDLK_u, KMOD_LCTRL), key_clear);
-    m_keymap->registerKey(KeyStroke(SDLK_u, KMOD_RCTRL), key_clear);
-    m_keymap->registerKey(KeyStroke(SDLK_RETURN, KMOD_NONE), key_enter);
+    m_keymap->registerKey(KeyStroke(SDLK_UP, SDL_KMOD_NONE), key_history);
+    m_keymap->registerKey(KeyStroke(SDLK_BACKSPACE, SDL_KMOD_NONE), key_backspace);
+    m_keymap->registerKey(KeyStroke(SDLK_U, SDL_KMOD_LCTRL), key_clear);
+    m_keymap->registerKey(KeyStroke(SDLK_U, SDL_KMOD_RCTRL), key_clear);
+    m_keymap->registerKey(KeyStroke(SDLK_RETURN, SDL_KMOD_NONE), key_enter);
 }
 //-----------------------------------------------------------------
 KeyConsole *
@@ -92,7 +92,7 @@ void
 ConsoleInput::specStroke(const KeyStroke &stroke)
 {
     //TODO: support UTF-8
-    char c = stroke.getUnicode() & 0x7F;
+    char c = stroke.toAscii();
     if (isprint(c)) {
         std::string input = getConsole()->getInput();
         input.append(1, c);

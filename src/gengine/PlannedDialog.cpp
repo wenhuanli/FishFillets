@@ -22,7 +22,7 @@ PlannedDialog::PlannedDialog(int actor, const Dialog *dialog, int minTime)
 {
     m_actor = actor;
     m_dialog = dialog;
-    m_channel = -1;
+    m_track = NULL;
     m_endtime = 0;
     m_minTime = minTime;
 }
@@ -35,7 +35,7 @@ PlannedDialog::PlannedDialog(int actor, const Dialog *dialog, int minTime)
 void
 PlannedDialog::talk(int volume, int loops)
 {
-    m_channel = m_dialog->talk(volume, loops);
+    m_track = m_dialog->talk(volume, loops);
     if (loops == -1) {
         m_endtime = 1 << 30;
     }
@@ -58,35 +58,31 @@ void
 PlannedDialog::killTalk()
 {
     if (isPlaying()) {
-        Mix_HaltChannel(m_channel);
+        MIX_StopTrack(m_track, 0);
     }
 }
 //-----------------------------------------------------------------
 /**
- * Return true when our channel is playing and
- * our chunk is the last one on this channel.
+ * Return true when our track is still playing.
+ * NOTE: unlike SDL 1.2's reused channel numbers, a MIX_Track is
+ * exclusively ours until destroyed, so there is no need to double check
+ * which sound currently occupies it.
  */
 bool
 PlannedDialog::isPlaying() const
 {
-    bool result = false;
-    if (m_channel > -1) {
-        if (Mix_Playing(m_channel)) {
-            result = m_dialog->equalSound(Mix_GetChunk(m_channel));
-        }
-    }
-    return result;
+    return m_track && MIX_TrackPlaying(m_track);
 }
 //-----------------------------------------------------------------
 /**
- * Return true when is playing or 
+ * Return true when is playing or
  * return true for minimal time according subtitle length.
  */
 bool
 PlannedDialog::isTalking() const
 {
     bool result = false;
-    if (m_channel > -1) {
+    if (m_track) {
         result = isPlaying();
     }
     else {

@@ -6,7 +6,7 @@ class Dialog;
 #include "ResourcePack.h"
 #include "Name.h"
 
-#include "SDL.h"
+#include "SDL3/SDL.h"
 
 /**
  * Multi-language dialogs pack.

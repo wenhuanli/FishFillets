@@ -1,7 +1,7 @@
 #ifndef HEADER_COLOR_H
 #define HEADER_COLOR_H
 
-#include "SDL.h"
+#include "SDL3/SDL.h"
 
 /**
  * Constructor for SDL_Color.
@@ -13,7 +13,7 @@ class Color : public SDL_Color {
             this->r = red;
             this->g = green;
             this->b = blue;
-            this->unused = alpha;
+            this->a = alpha;
         }
 };
 

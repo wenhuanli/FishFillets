@@ -30,7 +30,6 @@
 #include "MenuOptions.h"
 #include "DemoMode.h"
 #include "PosterScroller.h"
-#include "MovieState.h"
 #include "Log.h"
 
 //-----------------------------------------------------------------
@@ -315,17 +314,9 @@ WorldMap::findDesc(const std::string &codename) const
     void
 WorldMap::runIntro()
 {
-#ifdef HAVE_SMPEG
-    Path movieFile = Path::dataReadPath("images/menu/intro.mpg");
-    if (movieFile.exists()) {
-        pushState(new MovieState(movieFile));
-        return;
-    }
-
-    LOG_WARNING(ExInfo("cannot find intro")
-            .addInfo("file", movieFile.getNative()));
-#endif
-
+    //NOTE: the SMPEG-based MPEG intro movie was dropped when this project
+    //moved to SDL3 - SMPEG has no SDL3 port and is unmaintained upstream.
+    //The intro always uses the scripted demo now.
     pushState(new DemoMode(Path::dataReadPath("script/share/demo_intro.lua")));
 }
 //-----------------------------------------------------------------

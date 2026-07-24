@@ -8,7 +8,7 @@
  */
 #include "ImgException.h"
 
-#include "SDL_image.h"
+#include "SDL3_image/SDL_image.h"
 
 //-----------------------------------------------------------------
 /**
@@ -16,7 +16,7 @@
  * @param problem detail info
  */
 ImgException::ImgException(const ExInfo &problem)
-    : BaseException(ExInfo(problem).addInfo("IMG", IMG_GetError()))
+    : BaseException(ExInfo(problem).addInfo("IMG", SDL_GetError()))
 {
     /* empty */
 }

@@ -22,8 +22,8 @@ WorldInput::WorldInput(WorldMap *world)
     KeyDesc key_tab(KEY_TAB, "select next level");
     KeyDesc key_enter(KEY_ENTER, "run selected");
 
-    m_keymap->registerKey(KeyStroke(SDLK_TAB, KMOD_NONE), key_tab);
-    m_keymap->registerKey(KeyStroke(SDLK_RETURN, KMOD_NONE), key_enter);
+    m_keymap->registerKey(KeyStroke(SDLK_TAB, SDL_KMOD_NONE), key_tab);
+    m_keymap->registerKey(KeyStroke(SDLK_RETURN, SDL_KMOD_NONE), key_enter);
 }
 //-----------------------------------------------------------------
 WorldMap *

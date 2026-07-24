@@ -22,7 +22,7 @@
 #include "LevelStatus.h"
 #include "Level.h"
 
-#include "SDL.h"
+#include "SDL3/SDL.h"
 
 //-----------------------------------------------------------------
     void
@@ -88,7 +88,7 @@ GameAgent::own_shutdown()
 {
     OptionAgent *options = OptionAgent::agent();
     int playtime = options->getAsInt("playtime");
-    playtime += SDL_GetTicks() / 1000;
+    playtime += static_cast<int>(SDL_GetTicks() / 1000);
     options->setPersistent("playtime", playtime);
 
     delete m_manager;
@@ -105,15 +105,15 @@ GameAgent::keyBinding()
     KeyBinder *keyBinder = InputAgent::agent()->keyBinder();
 
     // fullscreen
-    KeyStroke fs(SDLK_F11, KMOD_NONE);
+    KeyStroke fs(SDLK_F11, SDL_KMOD_NONE);
     msg = new SimpleMsg(Name::VIDEO_NAME, "fullscreen");
     keyBinder->addStroke(fs, msg);
 
     // log
-    KeyStroke log_plus(SDLK_KP_PLUS, KMOD_RALT);
+    KeyStroke log_plus(SDLK_KP_PLUS, SDL_KMOD_RALT);
     msg = new SimpleMsg(Name::APP_NAME, "inc_loglevel");
     keyBinder->addStroke(log_plus, msg);
-    KeyStroke log_minus(SDLK_KP_MINUS, KMOD_RALT);
+    KeyStroke log_minus(SDLK_KP_MINUS, SDL_KMOD_RALT);
     msg = new SimpleMsg(Name::APP_NAME, "dec_loglevel");
     keyBinder->addStroke(log_minus, msg);
 }

@@ -68,6 +68,6 @@ KeyConsole::drawOn(SDL_Surface *screen)
 
     SDL_Surface *surface = m_font->renderText("console] " + m_input, m_color);
     SDL_BlitSurface(surface, NULL, screen, &rect);
-    SDL_FreeSurface(surface);
+    SDL_DestroySurface(surface);
 }
 

@@ -20,7 +20,7 @@ SurfaceLock::SurfaceLock(SDL_Surface *surface)
 {
     m_surface = surface;
     if (SDL_MUSTLOCK(m_surface)) {
-        if (SDL_LockSurface(m_surface) < 0) {
+        if (!SDL_LockSurface(m_surface)) {
             throw SDLException(ExInfo("LockSurface"));
         }
     }

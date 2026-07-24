@@ -17,16 +17,12 @@
 #include "Name.h"
 #include "MouseStroke.h"
 
-#include "SDL.h"
+#include "SDL3/SDL.h"
 
 //-----------------------------------------------------------------
 /**
- * Enable SDL_UNICODE.
- * Enable key repeat.
  * Set console handler to ScriptAgent.
  *
- * NOTE: every SDL_InitSubSystem will disable UNICODE
- * hence InputAgent init must be after VideoAgent and SoundAgent.
  * NOTE: KeyConsole() use Path which asks OptionAgent
  */
     void
@@ -34,9 +30,7 @@ InputAgent::own_init()
 {
     m_keyBinder = new KeyBinder();
     m_handler = NULL;
-    m_keys = SDL_GetKeyState(NULL);
-
-    SDL_EnableUNICODE(1);
+    m_keys = SDL_GetKeyboardState(NULL);
 }
 //-----------------------------------------------------------------
     void
@@ -45,24 +39,24 @@ InputAgent::own_update()
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
         switch (event.type) {
-            case SDL_QUIT:
+            case SDL_EVENT_QUIT:
                 {
                     BaseMsg *msg = new SimpleMsg(Name::APP_NAME, "quit");
                     MessagerAgent::agent()->forwardNewMsg(msg);
                     break;
                 }
-            case SDL_KEYDOWN:
-                m_keyBinder->keyDown(event.key.keysym);
+            case SDL_EVENT_KEY_DOWN:
+                m_keyBinder->keyDown(event.key.key, event.key.mod);
                 if (m_handler) {
-                    m_handler->keyEvent(KeyStroke(event.key.keysym));
+                    m_handler->keyEvent(KeyStroke(event.key.key, event.key.mod));
                 }
                 break;
-            case SDL_KEYUP:
+            case SDL_EVENT_KEY_UP:
                 if (m_handler) {
-                    m_handler->keyUp(KeyStroke(event.key.keysym));
+                    m_handler->keyUp(KeyStroke(event.key.key, event.key.mod));
                 }
                 break;
-            case SDL_MOUSEBUTTONDOWN:
+            case SDL_EVENT_MOUSE_BUTTON_DOWN:
                 if (m_handler) {
                     m_handler->mouseEvent(MouseStroke(event.button));
                 }
@@ -73,7 +67,7 @@ InputAgent::own_update()
     }
 
     if (m_handler) {
-        Uint8 buttons;
+        Uint32 buttons;
         V2 mouseLoc = getMouseState(&buttons);
         m_handler->mouseState(mouseLoc, buttons);
     }
@@ -98,7 +92,7 @@ InputAgent::installHandler(InputHandler *handler)
     m_handler = handler;
     if (m_handler) {
         m_handler->takePressed(m_keys);
-        Uint8 buttons;
+        Uint32 buttons;
         V2 mouseLoc = getMouseState(&buttons);
         m_handler->mouseState(mouseLoc, buttons);
     }
@@ -110,15 +104,15 @@ InputAgent::installHandler(InputHandler *handler)
  * @return (mouseX, mouseY)
  */
     V2
-InputAgent::getMouseState(Uint8 *out_buttons)
+InputAgent::getMouseState(Uint32 *out_buttons)
 {
-    int x;
-    int y;
-    Uint8 pressed = SDL_GetMouseState(&x, &y);
+    float x;
+    float y;
+    Uint32 pressed = SDL_GetMouseState(&x, &y);
     if (out_buttons) {
         *out_buttons = pressed;
     }
-    return V2(x, y);
+    return V2(static_cast<int>(x), static_cast<int>(y));
 }
 
 

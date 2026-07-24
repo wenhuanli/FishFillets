@@ -20,10 +20,11 @@
 PixelIterator::PixelIterator(SDL_Surface *surface)
 {
     m_surface = surface;
+    m_details = PixelTool::formatDetails(surface);
     m_lock = new SurfaceLock(m_surface);
     m_p = static_cast<Uint8*>(surface->pixels);
     m_end = m_p + m_surface->h * m_surface->pitch;
-    m_bpp = surface->format->BytesPerPixel;
+    m_bpp = m_details->bytes_per_pixel;
 }
 //-----------------------------------------------------------------
 /**
@@ -49,15 +50,17 @@ PixelIterator::setPos(const V2 &pos)
 bool
 PixelIterator::isTransparent() const
 {
-    return getPixel() == m_surface->format->colorkey;
+    Uint32 colorkey = 0;
+    SDL_GetSurfaceColorKey(m_surface, &colorkey);
+    return getPixel() == colorkey;
 }
 //-----------------------------------------------------------------
 SDL_Color
 PixelIterator::getColor() const
 {
     SDL_Color color;
-    SDL_GetRGBA(getPixel(), m_surface->format,
-            &color.r, &color.g, &color.b, &color.unused);
+    SDL_GetRGBA(getPixel(), m_details, NULL,
+            &color.r, &color.g, &color.b, &color.a);
     return color;
 }
 //-----------------------------------------------------------------
@@ -70,8 +73,8 @@ PixelIterator::getPixel() const
     void
 PixelIterator::putColor(const SDL_Color &color)
 {
-    Uint32 pixel = SDL_MapRGBA(m_surface->format,
-            color.r, color.g, color.b, color.unused);
+    Uint32 pixel = SDL_MapRGBA(m_details, NULL,
+            color.r, color.g, color.b, color.a);
     putPixel(pixel);
 }
 //-----------------------------------------------------------------

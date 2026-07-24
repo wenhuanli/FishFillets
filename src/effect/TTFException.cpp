@@ -8,7 +8,7 @@
  */
 #include "TTFException.h"
 
-#include "SDL_ttf.h"
+#include "SDL3_ttf/SDL_ttf.h"
 
 //-----------------------------------------------------------------
 /**
@@ -16,7 +16,7 @@
  * @param problem detail info
  */
 TTFException::TTFException(const ExInfo &problem)
-    : BaseException(ExInfo(problem).addInfo("TTF", TTF_GetError()))
+    : BaseException(ExInfo(problem).addInfo("TTF", SDL_GetError()))
 {
     /* empty */
 }

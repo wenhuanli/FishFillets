@@ -38,7 +38,7 @@
 
 //NOTE: userdir = $HOME + USER_DATA_DIR
 #ifndef USER_DATA_DIR
-#define USER_DATA_DIR ".fillets-ng"
+#define USER_DATA_DIR ".fillets"
 #endif
 
 const char *OptionAgent::CONFIG_FILE = "script/options.lua";
@@ -87,7 +87,7 @@ OptionAgent::prepareVersion()
 //-----------------------------------------------------------------
 /**
  * Set user and sytem dir options.
- * Userdir="$HOME/.fillets-ng" or ""
+ * Userdir="$HOME/.fillets" or ""
  */
     void
 OptionAgent::prepareDataPaths()

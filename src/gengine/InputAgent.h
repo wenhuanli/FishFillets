@@ -8,7 +8,7 @@ class InputHandler;
 #include "Name.h"
 #include "V2.h"
 
-#include "SDL.h"
+#include "SDL3/SDL.h"
 
 /**
  * Forward input events to handlers.
@@ -16,11 +16,11 @@ class InputHandler;
 class InputAgent : public BaseAgent {
     AGENT(InputAgent, Name::INPUT_NAME);
     private:
-        Uint8 *m_keys;
+        const bool *m_keys;
         KeyBinder *m_keyBinder;
         InputHandler *m_handler;
     private:
-        V2 getMouseState(Uint8 *out_buttons);
+        V2 getMouseState(Uint32 *out_buttons);
     protected:
         virtual void own_init();
         virtual void own_update();

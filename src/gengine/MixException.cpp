@@ -8,7 +8,7 @@
  */
 #include "MixException.h"
 
-#include "SDL_mixer.h"
+#include "SDL3_mixer/SDL_mixer.h"
 
 //-----------------------------------------------------------------
 /**
@@ -16,7 +16,7 @@
  * @param problem detail info
  */
 MixException::MixException(const ExInfo &problem)
-    : BaseException(ExInfo(problem).addInfo("Mix", Mix_GetError()))
+    : BaseException(ExInfo(problem).addInfo("Mix", SDL_GetError()))
 {
     /* empty */
 }

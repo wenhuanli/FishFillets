@@ -5,8 +5,8 @@ class Path;
 
 #include "NoCopy.h"
 
-#include "SDL.h"
-#include "SDL_ttf.h"
+#include "SDL3/SDL.h"
+#include "SDL3_ttf/SDL_ttf.h"
 
 #include <string>
 
@@ -25,7 +25,7 @@ class Font : public NoCopy {
         static void init();
         static void shutdown();
 
-        int getHeight() { return TTF_FontHeight(m_ttfont); }
+        int getHeight() { return TTF_GetFontHeight(m_ttfont); }
         int calcTextWidth(const std::string &text);
         SDL_Surface *renderText(const std::string &text,
                 const SDL_Color &color) const;

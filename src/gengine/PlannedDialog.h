@@ -5,6 +5,7 @@ class Dialog;
 
 #include "NoCopy.h"
 
+#include "SDL3_mixer/SDL_mixer.h"
 #include <string>
 
 /**
@@ -14,7 +15,7 @@ class PlannedDialog : public NoCopy {
     private:
         int m_actor;
         const Dialog *m_dialog;
-        int m_channel;
+        MIX_Track *m_track;
         int m_endtime;
         int m_minTime;
     private:

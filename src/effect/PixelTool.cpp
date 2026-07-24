@@ -26,9 +26,20 @@ PixelTool::colorEquals(const SDL_Color &color1, const SDL_Color &color2)
 }
 //-----------------------------------------------------------------
 Uint32
-PixelTool::convertColor(SDL_PixelFormat *format, const SDL_Color &color)
+PixelTool::convertColor(const SDL_PixelFormatDetails *format, const SDL_Color &color)
 {
-    return SDL_MapRGB(format, color.r, color.g, color.b);
+    return SDL_MapRGB(format, NULL, color.r, color.g, color.b);
+}
+//-----------------------------------------------------------------
+/**
+ * Details struct for a surface's pixel format (bpp, masks, shifts).
+ * SDL3 keeps SDL_Surface::format as a plain enum value; this is the
+ * struct that used to live behind the SDL 1.2/2 SDL_PixelFormat pointer.
+ */
+const SDL_PixelFormatDetails *
+PixelTool::formatDetails(SDL_Surface *surface)
+{
+    return SDL_GetPixelFormatDetails(surface->format);
 }
 //-----------------------------------------------------------------
 /**
@@ -40,8 +51,8 @@ SDL_Color
 PixelTool::getColor(SDL_Surface *surface, int x, int y)
 {
     SDL_Color color;
-    SDL_GetRGBA(getPixel(surface, x, y), surface->format,
-            &color.r, &color.g, &color.b, &color.unused);
+    SDL_GetRGBA(getPixel(surface, x, y), formatDetails(surface), NULL,
+            &color.r, &color.g, &color.b, &color.a);
     return color;
 }
 //-----------------------------------------------------------------
@@ -54,8 +65,8 @@ void
 PixelTool::putColor(SDL_Surface *surface, int x, int y,
         const SDL_Color &color)
 {
-    Uint32 pixel = SDL_MapRGBA(surface->format,
-            color.r, color.g, color.b, color.unused);
+    Uint32 pixel = SDL_MapRGBA(formatDetails(surface), NULL,
+            color.r, color.g, color.b, color.a);
     putPixel(surface, x, y, pixel);
 }
 //-----------------------------------------------------------------
@@ -69,7 +80,7 @@ PixelTool::getPixel(SDL_Surface *surface, int x, int y)
 {
     assert((0 <= x && x < surface->w) && (0 <= y && y < surface->h));
 
-    int bpp = surface->format->BytesPerPixel;
+    int bpp = formatDetails(surface)->bytes_per_pixel;
     Uint8 *p = static_cast<Uint8*>(surface->pixels) + y * surface->pitch
         + x * bpp;
 
@@ -84,7 +95,7 @@ PixelTool::getPixel(SDL_Surface *surface, int x, int y)
 PixelTool::putPixel(SDL_Surface *surface, int x, int y, Uint32 pixel)
 {
     if ((0 <= x && x < surface->w) && (0 <= y && y < surface->h)) {
-        int bpp = surface->format->BytesPerPixel;
+        int bpp = formatDetails(surface)->bytes_per_pixel;
         Uint8 *p = static_cast<Uint8*>(surface->pixels) + y * surface->pitch
             + x * bpp;
 

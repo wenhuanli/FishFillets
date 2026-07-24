@@ -1,7 +1,7 @@
 #ifndef HEADER_OUTLINE_H
 #define HEADER_OUTLINE_H
 
-#include "SDL.h"
+#include "SDL3/SDL.h"
 
 /**
  * Outline around picture.
@@ -14,7 +14,7 @@ class Outline {
         Uint32 m_pixel;
     private:
         SDL_Surface *cloneSurface(SDL_Surface *surface);
-        void precomputePixel(SDL_PixelFormat *format);
+        void precomputePixel(const SDL_PixelFormatDetails *format);
         void drawOneLayer(SDL_Surface *surface, Uint32 bgKey);
         void drawAlongCopy(SDL_Surface *surface, Uint32 bgKey,
                 SDL_Surface *copy);

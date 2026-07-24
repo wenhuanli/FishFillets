@@ -19,34 +19,40 @@ InputHandler::InputHandler()
 }
 //-----------------------------------------------------------------
 void
-InputHandler::mouseState(const V2 &loc, Uint8 buttons)
+InputHandler::mouseState(const V2 &loc, Uint32 buttons)
 {
     m_mouseLoc = loc;
     m_buttons = buttons;
 }
 //-----------------------------------------------------------------
 bool
-InputHandler::isPressed(SDLKey key) const
+InputHandler::isPressed(SDL_Keycode key) const
 {
-    return m_pressed && m_pressed[key];
+    //NOTE: SDL3's keyboard-state array is indexed by scancode (physical
+    //key), not keycode (mapped key), unlike SDL 1.2's array
+    if (!m_pressed) {
+        return false;
+    }
+    SDL_Scancode scancode = SDL_GetScancodeFromKey(key, NULL);
+    return m_pressed[scancode];
 }
 //-----------------------------------------------------------------
 bool
 InputHandler::isLeftPressed() const
 {
-    return m_buttons & SDL_BUTTON(1);
+    return m_buttons & SDL_BUTTON_LMASK;
 }
 //-----------------------------------------------------------------
 bool
 InputHandler::isMiddlePressed() const
 {
-    return m_buttons & SDL_BUTTON(2);
+    return m_buttons & SDL_BUTTON_MMASK;
 }
 //-----------------------------------------------------------------
 bool
 InputHandler::isRightPressed() const
 {
-    return m_buttons & SDL_BUTTON(3);
+    return m_buttons & SDL_BUTTON_RMASK;
 }
 //-----------------------------------------------------------------
 std::string

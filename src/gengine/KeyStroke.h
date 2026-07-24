@@ -1,7 +1,7 @@
 #ifndef HEADER_KEYSTROKE_H
 #define HEADER_KEYSTROKE_H
 
-#include "SDL.h"
+#include "SDL3/SDL.h"
 #include <string>
 
 /**
@@ -9,18 +9,16 @@
  */
 class KeyStroke {
     private:
-        static const int STROKE_IGNORE = ~(KMOD_CTRL|KMOD_ALT);
-        SDLKey m_sym;
+        static const int STROKE_IGNORE = ~static_cast<int>(SDL_KMOD_CTRL|SDL_KMOD_ALT);
+        SDL_Keycode m_sym;
         int m_mod;
-        Uint16 m_unicode;
     private:
         static int modStrip(int mod);
     public:
-        KeyStroke(const SDL_keysym &keysym);
-        KeyStroke(SDLKey sym, int mod);
+        KeyStroke(SDL_Keycode sym, int mod);
 
-        SDLKey getKey() const { return m_sym; }
-        Uint16 getUnicode() const { return m_unicode; }
+        SDL_Keycode getKey() const { return m_sym; }
+        char toAscii() const;
         bool less(const KeyStroke &other) const;
         bool equals(const KeyStroke &other) const;
         std::string toString() const;

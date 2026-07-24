@@ -3,7 +3,7 @@
 
 #include "NoCopy.h"
 
-#include "SDL.h"
+#include "SDL3/SDL.h"
 
 /**
  * Lock and unlock surface.

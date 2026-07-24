@@ -3,7 +3,7 @@
 
 #include "V2.h"
 
-#include "SDL.h"
+#include "SDL3/SDL.h"
 #include <string>
 
 /**
@@ -12,7 +12,7 @@
 class InputProvider {
     public:
         virtual ~InputProvider() {}
-        virtual bool isPressed(SDLKey key) const = 0;
+        virtual bool isPressed(SDL_Keycode key) const = 0;
         virtual bool isLeftPressed() const = 0;
         virtual bool isRightPressed() const = 0;
         virtual bool isMiddlePressed() const = 0;

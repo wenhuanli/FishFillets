@@ -90,7 +90,7 @@
  * 
  */
 
-#include "SDL.h"
+#include "SDL3/SDL.h"
 
 #include "Log.h"
 #include "Application.h"

@@ -8,6 +8,7 @@
  */
 #include "SurfaceTool.h"
 
+#include "PixelTool.h"
 #include "SDLException.h"
 
 //-----------------------------------------------------------------
@@ -28,14 +29,9 @@ SurfaceTool::createEmpty(SDL_Surface *surface, int width, int height)
         height = surface->h;
     }
 
-    SDL_Surface *result = SDL_CreateRGBSurface(surface->flags, width, height,
-            surface->format->BitsPerPixel,
-            surface->format->Rmask,
-            surface->format->Gmask,
-            surface->format->Bmask,
-            surface->format->Amask);
+    SDL_Surface *result = SDL_CreateSurface(width, height, surface->format);
     if (NULL == result) {
-        throw SDLException(ExInfo("CreateRGBSurface"));
+        throw SDLException(ExInfo("CreateSurface"));
     }
     return result;
 }
@@ -46,16 +42,15 @@ SurfaceTool::createEmpty(SDL_Surface *surface, int width, int height)
     SDL_Surface *
 SurfaceTool::createTransparent(int w, int h, const SDL_Color &transparent)
 {
-    SDL_Surface *surface = SDL_CreateRGBSurface(SDL_SWSURFACE|SDL_SRCCOLORKEY,
-            w, h, 32,
-            0, 0, 0, 0);
+    SDL_Surface *surface = SDL_CreateSurface(w, h, SDL_PIXELFORMAT_RGBA32);
     if (NULL == surface) {
-        throw SDLException(ExInfo("CreateRGBSurface"));
+        throw SDLException(ExInfo("CreateSurface"));
     }
 
-    Uint32 transparentKey = SDL_MapRGB(surface->format,
-            transparent.r, transparent.g, transparent.b);
-    SDL_SetColorKey(surface, SDL_SRCCOLORKEY|SDL_RLEACCEL, transparentKey);
+    Uint32 transparentKey = PixelTool::convertColor(
+            PixelTool::formatDetails(surface), transparent);
+    SDL_SetSurfaceColorKey(surface, true, transparentKey);
+    SDL_SetSurfaceRLE(surface, true);
 
     SurfaceTool::alphaFill(surface, NULL, transparent);
     return surface;
@@ -69,8 +64,7 @@ SurfaceTool::createTransparent(int w, int h, const SDL_Color &transparent)
     SDL_Surface *
 SurfaceTool::createClone(SDL_Surface *surface)
 {
-    SDL_Surface *clone = SDL_ConvertSurface(surface,
-            surface->format, surface->flags);
+    SDL_Surface *clone = SDL_ConvertSurface(surface, surface->format);
     if (NULL == clone) {
         throw SDLException(ExInfo("ConvertSurface"));
     }
@@ -96,11 +90,12 @@ SurfaceTool::alphaFill(SDL_Surface *surface, SDL_Rect *dstrect,
         h = dstrect->h;
     }
     SDL_Surface *canvas = createEmpty(surface, w, h);
-    Uint32 pixel = SDL_MapRGB(canvas->format, color.r, color.g, color.b);
-    SDL_FillRect(canvas, NULL, pixel);
-    SDL_SetAlpha(canvas, SDL_SRCALPHA|SDL_RLEACCEL, color.unused);
+    Uint32 pixel = PixelTool::convertColor(PixelTool::formatDetails(canvas), color);
+    SDL_FillSurfaceRect(canvas, NULL, pixel);
+    SDL_SetSurfaceAlphaMod(canvas, color.a);
+    SDL_SetSurfaceRLE(canvas, true);
 
     SDL_BlitSurface(canvas, NULL, surface, dstrect);
-    SDL_FreeSurface(canvas);
+    SDL_DestroySurface(canvas);
 }
 

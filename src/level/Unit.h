@@ -9,7 +9,7 @@ class InputProvider;
 #include "Dir.h"
 #include "V2.h"
 
-#include "SDL.h"
+#include "SDL3/SDL.h"
 #include <string>
 
 /**
@@ -39,8 +39,8 @@ class Unit {
                 const KeyControl &buttons);
         void activate();
 
-        char mySymbol(SDLKey key) const;
-        char mySymbolBorrowed(SDLKey key, const KeyControl &buttons) const;
+        char mySymbol(SDL_Keycode key) const;
+        char mySymbolBorrowed(SDL_Keycode key, const KeyControl &buttons) const;
         char myOrder(Dir::eDir dir) const;
         char driveOrder(char move);
 

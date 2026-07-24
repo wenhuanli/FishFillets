@@ -51,7 +51,7 @@ Title::Title(int baseY, int finalY, int bonusTime, int limitY,
 //-----------------------------------------------------------------
 Title::~Title()
 {
-    SDL_FreeSurface(m_surface);
+    SDL_DestroySurface(m_surface);
 }
 //-----------------------------------------------------------------
 /**

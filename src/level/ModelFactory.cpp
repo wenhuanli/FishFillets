@@ -103,28 +103,28 @@ ModelFactory::createUnit(const std::string &kind)
     Unit *result = NULL;
     if ("fish_small" == kind) {
         KeyControl smallfish;
-        smallfish.setUp(SDLK_i);
-        smallfish.setDown(SDLK_k);
-        smallfish.setLeft(SDLK_j);
-        smallfish.setRight(SDLK_l);
+        smallfish.setUp(SDLK_I);
+        smallfish.setDown(SDLK_K);
+        smallfish.setLeft(SDLK_J);
+        smallfish.setRight(SDLK_L);
         result = new Unit(smallfish, ControlSym('u', 'd', 'l', 'r'), true);
     }
     else if ("fish_big" == kind) {
         KeyControl bigfish;
-        bigfish.setUp(SDLK_w);
-        bigfish.setDown(SDLK_s);
-        bigfish.setLeft(SDLK_a);
-        bigfish.setRight(SDLK_d);
+        bigfish.setUp(SDLK_W);
+        bigfish.setDown(SDLK_S);
+        bigfish.setLeft(SDLK_A);
+        bigfish.setRight(SDLK_D);
         result = new Unit(bigfish, ControlSym('U', 'D', 'L', 'R'));
     }
     else if (StringTool::startsWith(kind, "fish_extra") ||
         StringTool::startsWith(kind, "fish_EXTRA"))
     {
         KeyControl extrafish;
-        extrafish.setUp(SDLK_LAST);
-        extrafish.setDown(SDLK_LAST);
-        extrafish.setLeft(SDLK_LAST);
-        extrafish.setRight(SDLK_LAST);
+        extrafish.setUp(SDLK_UNKNOWN);
+        extrafish.setDown(SDLK_UNKNOWN);
+        extrafish.setLeft(SDLK_UNKNOWN);
+        extrafish.setRight(SDLK_UNKNOWN);
         result = new Unit(extrafish, parseExtraControlSym(kind));
     }
     return result;

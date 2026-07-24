@@ -8,8 +8,8 @@ class BaseMsg;
 #include "Name.h"
 #include "IntMsg.h"
 
-#include "SDL.h"
-#include "SDL_mixer.h"
+#include "SDL3/SDL.h"
+#include "SDL3_mixer/SDL_mixer.h"
 #include <string>
 
 /**
@@ -23,7 +23,8 @@ class SoundAgent : public BaseAgent {
         virtual void setMusicVolume(int volume) = 0;
     public:
         virtual void reinit();
-        virtual int playSound(Mix_Chunk *sound, int volume,
+        virtual MIX_Audio *loadSound(const Path &file) = 0;
+        virtual MIX_Track *playSound(MIX_Audio *sound, int volume,
                 int loops=0) = 0;
 
         virtual void playMusic(const Path &file,

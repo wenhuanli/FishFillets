@@ -10,32 +10,27 @@
 
 #include "Path.h"
 #include "OptionAgent.h"
+#include "SoundAgent.h"
 
 //-----------------------------------------------------------------
     void
-ResSoundPack::unloadRes(Mix_Chunk *res)
+ResSoundPack::unloadRes(MIX_Audio *res)
 {
-    Mix_FreeChunk(res);
+    MIX_DestroyAudio(res);
 }
 //-----------------------------------------------------------------
 /**
  * Load unshared sound from file.
  * @return sound or NULL
  */
-    Mix_Chunk *
+    MIX_Audio *
 ResSoundPack::loadSound(const Path &file)
 {
-    Mix_Chunk *chunk = NULL;
-    //TODO: ask SoundAgent to load this sound
+    MIX_Audio *sound = NULL;
     if (OptionAgent::agent()->getAsBool("sound", true)) {
-        chunk = Mix_LoadWAV(file.getNative().c_str());
-        if (NULL == chunk) {
-            LOG_WARNING(ExInfo("cannot load sound")
-                .addInfo("path", file.getNative())
-                .addInfo("MixError", Mix_GetError()));
-        }
+        sound = SoundAgent::agent()->loadSound(file);
     }
-    return chunk;
+    return sound;
 }
 //-----------------------------------------------------------------
 /**
@@ -45,9 +40,8 @@ ResSoundPack::loadSound(const Path &file)
     void
 ResSoundPack::addSound(const std::string &name, const Path &file)
 {
-    Mix_Chunk *chunk = loadSound(file);
-    if (chunk) {
-        addRes(name, chunk);
+    MIX_Audio *sound = loadSound(file);
+    if (sound) {
+        addRes(name, sound);
     }
 }
-

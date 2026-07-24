@@ -29,11 +29,11 @@ StateInput::StateInput(GameState *state)
     KeyDesc key_console(KEY_CONSOLE, "debug console");
     KeyDesc key_help(KEY_HELP, "help screen");
     KeyDesc key_menu(KEY_MENU, "game menu");
-    m_keymap->registerKey(KeyStroke(SDLK_ESCAPE, KMOD_NONE), key_quit);
-    m_keymap->registerKey(KeyStroke(SDLK_BACKQUOTE, KMOD_NONE), key_console);
-    m_keymap->registerKey(KeyStroke(SDLK_F1, KMOD_NONE), key_help);
-    m_keymap->registerKey(KeyStroke(SDLK_F10, KMOD_NONE), key_menu);
-    m_keymap->registerKey(KeyStroke(SDLK_F6, KMOD_NONE),
+    m_keymap->registerKey(KeyStroke(SDLK_ESCAPE, SDL_KMOD_NONE), key_quit);
+    m_keymap->registerKey(KeyStroke(SDLK_GRAVE, SDL_KMOD_NONE), key_console);
+    m_keymap->registerKey(KeyStroke(SDLK_F1, SDL_KMOD_NONE), key_help);
+    m_keymap->registerKey(KeyStroke(SDLK_F10, SDL_KMOD_NONE), key_menu);
+    m_keymap->registerKey(KeyStroke(SDLK_F6, SDL_KMOD_NONE),
             KeyDesc(KEY_SUBTITLES, "enable subtitles"));
 }
 //-----------------------------------------------------------------

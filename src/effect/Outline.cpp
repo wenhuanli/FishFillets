@@ -27,7 +27,8 @@ Outline::Outline(const SDL_Color &color, int width)
 void
 Outline::drawOnColorKey(SDL_Surface *surface)
 {
-    Uint32 bgKey = surface->format->colorkey;
+    Uint32 bgKey = 0;
+    SDL_GetSurfaceColorKey(surface, &bgKey);
     drawOn(surface, bgKey);
 }
 //-----------------------------------------------------------------
@@ -41,16 +42,16 @@ Outline::drawOn(SDL_Surface *surface, Uint32 bgKey)
 {
     SurfaceLock lock1(surface);
 
-    precomputePixel(surface->format);
+    precomputePixel(PixelTool::formatDetails(surface));
     for (int i = 0; i < m_width; ++i) {
         drawOneLayer(surface, bgKey);
     }
 }
 //-----------------------------------------------------------------
 void
-Outline::precomputePixel(SDL_PixelFormat *format)
+Outline::precomputePixel(const SDL_PixelFormatDetails *format)
 {
-    m_pixel = SDL_MapRGB(format, m_color.r, m_color.g, m_color.b);
+    m_pixel = SDL_MapRGB(format, NULL, m_color.r, m_color.g, m_color.b);
 }
 //-----------------------------------------------------------------
 /**
@@ -61,7 +62,7 @@ Outline::drawOneLayer(SDL_Surface *surface, Uint32 bgKey)
 {
     SDL_Surface *copy = SurfaceTool::createClone(surface);
     drawAlongCopy(surface, bgKey, copy);
-    SDL_FreeSurface(copy);
+    SDL_DestroySurface(copy);
 }
 //-----------------------------------------------------------------
 /**

@@ -48,7 +48,7 @@ Pedometer::~Pedometer()
     if (m_level) {
         delete m_level;
     }
-    SDL_FreeSurface(m_numbers);
+    SDL_DestroySurface(m_numbers);
     delete m_rack;
     delete m_bg;
 }

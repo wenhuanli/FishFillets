@@ -12,7 +12,7 @@
 #include "LogicException.h"
 #include "BaseMsg.h"
 
-#include "SDL.h"
+#include "SDL3/SDL.h"
 
 //-----------------------------------------------------------------
 KeyBinder::~KeyBinder()
@@ -65,9 +65,9 @@ KeyBinder::removeStroke(const KeyStroke &stroke)
  * find keystroke and send message.
  */
 void
-KeyBinder::keyDown(const SDL_keysym &keysym) const
+KeyBinder::keyDown(SDL_Keycode sym, int mod) const
 {
-    KeyStroke stroke(keysym);
+    KeyStroke stroke(sym, mod);
     t_strokes::const_iterator it = m_strokes.find(stroke);
     if (m_strokes.end() != it) {
         it->second->sendClone();

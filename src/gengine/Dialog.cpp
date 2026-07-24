@@ -30,7 +30,7 @@ Dialog::Dialog(const std::string &lang,
 Dialog::~Dialog()
 {
     if (m_sound) {
-        Mix_FreeChunk(m_sound);
+        MIX_DestroyAudio(m_sound);
     }
 }
 //-----------------------------------------------------------------
@@ -40,9 +40,9 @@ Dialog::~Dialog()
  *
  * @param volume sound volume
  * @param loops numer of loops. 0=play once, 1=play twice, -1=play infinite
- * @return channel number where the sound is played or -1
+ * @return track where the sound is played, or NULL
  */
-    int
+    MIX_Track *
 Dialog::talk(int volume, int loops) const
 {
     if (NULL == m_sound && !m_soundfile.empty()) {
@@ -50,8 +50,7 @@ Dialog::talk(int volume, int loops) const
         m_sound = ResSoundPack::loadSound(soundPath);
     }
 
-    int channel = SoundAgent::agent()->playSound(m_sound, volume, loops);
-    return channel;
+    return SoundAgent::agent()->playSound(m_sound, volume, loops);
 }
 //-----------------------------------------------------------------
 /**

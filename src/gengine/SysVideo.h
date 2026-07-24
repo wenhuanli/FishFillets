@@ -1,6 +1,8 @@
 #ifndef HEADER_SYSVIDEO_H
 #define HEADER_SYSVIDEO_H
 
+#include "SDL3/SDL.h"
+
 #include <string>
 
 /**
@@ -8,7 +10,7 @@
  */
 class SysVideo {
     public:
-        static void setCaption(const std::string &title);
+        static void setCaption(SDL_Window *window, const std::string &title);
 };
 
 #endif

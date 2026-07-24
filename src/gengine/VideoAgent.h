@@ -7,8 +7,9 @@ class Path;
 #include "MultiDrawer.h"
 #include "Name.h"
 
-#include "SDL.h"
+#include "SDL3/SDL.h"
 
+#include <string>
 #include <vector>
 
 /**
@@ -18,13 +19,15 @@ class Path;
 class VideoAgent : public BaseAgent, public MultiDrawer {
     AGENT(VideoAgent, Name::VIDEO_NAME);
     private:
+        SDL_Window *m_window;
         SDL_Surface *m_screen;
         bool m_fullscreen;
 
     private:
         void setIcon(const Path &file);
-        void changeVideoMode(int screen_width, int screen_height);
-        int getVideoFlags();
+        void changeVideoMode(int screen_width, int screen_height,
+                const std::string &caption);
+        SDL_WindowFlags getVideoFlags();
         void toggleFullScreen();
     protected:
         virtual void own_init();

@@ -15,7 +15,7 @@
 TimerAgent::own_init()
 {
     m_timeinterval = OptionAgent::agent()->getAsInt("timeinterval", 100);
-    m_lastTime = SDL_GetTicks();
+    m_lastTime = static_cast<Uint32>(SDL_GetTicks());
     m_nextTime = m_lastTime;
     m_deltaTime = 1;
     m_count = 0;
@@ -29,7 +29,7 @@ TimerAgent::getTimeInterval()
 {
     int result = m_timeinterval;
 
-    if (SDL_GetModState() & KMOD_SHIFT) {
+    if (SDL_GetModState() & SDL_KMOD_SHIFT) {
         result = m_timeinterval / 4;
     }
     return result;
@@ -43,12 +43,12 @@ TimerAgent::own_update()
 {
     m_count++;
 
-    Uint32 now = SDL_GetTicks();
+    Uint32 now = static_cast<Uint32>(SDL_GetTicks());
     if (now < m_nextTime) {
         SDL_Delay(m_nextTime - now);
     }
 
-    now = SDL_GetTicks();
+    now = static_cast<Uint32>(SDL_GetTicks());
     //NOTE: every cycle have fixed time interval
     m_nextTime = now + getTimeInterval();
 

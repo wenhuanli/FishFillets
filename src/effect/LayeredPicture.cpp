@@ -30,9 +30,9 @@ LayeredPicture::LayeredPicture(const Path &bg_file, const V2 &loc,
     m_colorMask = ResImagePack::loadImage(colorMask);
     if (m_lowerLayer->w != m_colorMask->w
             || m_lowerLayer->h != m_colorMask->h) {
-        SDL_FreeSurface(m_lowerLayer);
-        SDL_FreeSurface(m_colorMask);
-        SDL_FreeSurface(m_surface);
+        SDL_DestroySurface(m_lowerLayer);
+        SDL_DestroySurface(m_colorMask);
+        SDL_DestroySurface(m_surface);
 
         throw ResourceException(ExInfo(
                     "lowerLayer and colorMask have different proportions")
@@ -45,8 +45,8 @@ LayeredPicture::LayeredPicture(const Path &bg_file, const V2 &loc,
 //-----------------------------------------------------------------
 LayeredPicture::~LayeredPicture()
 {
-    SDL_FreeSurface(m_lowerLayer);
-    SDL_FreeSurface(m_colorMask);
+    SDL_DestroySurface(m_lowerLayer);
+    SDL_DestroySurface(m_colorMask);
 }
 //-----------------------------------------------------------------
 /**
@@ -98,7 +98,7 @@ LayeredPicture::drawOn(SDL_Surface *screen)
 
             if (sample == m_activeColor) {
                 SDL_Color lower = PixelTool::getColor(m_lowerLayer, px, py);
-                if (lower.unused == 255) {
+                if (lower.a == 255) {
                     PixelTool::putColor(screen,
                             m_loc.getX() + px, world_y, lower);
                 }

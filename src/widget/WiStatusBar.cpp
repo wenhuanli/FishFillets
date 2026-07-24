@@ -39,7 +39,7 @@ WiStatusBar::drawOn(SDL_Surface *screen)
 
         SDL_Surface *rendered = m_font->renderTextOutlined(m_label, m_color);
         SDL_BlitSurface(rendered, NULL, screen, &rect);
-        SDL_FreeSurface(rendered);
+        SDL_DestroySurface(rendered);
     }
 }
 

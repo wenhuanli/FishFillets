@@ -22,11 +22,12 @@ extern "C" {
 //-----------------------------------------------------------------
 ScriptState::ScriptState()
 {
-    m_state = lua_open();
-    luaopen_base(m_state);
-    luaopen_string(m_state);
-    luaopen_math(m_state);
-    luaopen_table(m_state);
+    m_state = luaL_newstate();
+    luaL_requiref(m_state, LUA_GNAME, luaopen_base, 1);
+    luaL_requiref(m_state, LUA_STRLIBNAME, luaopen_string, 1);
+    luaL_requiref(m_state, LUA_MATHLIBNAME, luaopen_math, 1);
+    luaL_requiref(m_state, LUA_TABLIBNAME, luaopen_table, 1);
+    lua_pop(m_state, 4);
 
     prepareErrorHandler();
 }
@@ -42,9 +43,12 @@ ScriptState::~ScriptState()
 void
 ScriptState::prepareErrorHandler()
 {
+    //NOTE: stashed in the registry, not globals - LUA_GLOBALSINDEX was
+    //removed in Lua 5.2, and the registry is the idiomatic place for
+    //this kind of C-side-only bookkeeping anyway.
     lua_pushliteral(m_state, "_TRACEBACK");
     lua_pushcfunction(m_state, script_debugStack);
-    lua_settable(m_state, LUA_GLOBALSINDEX);
+    lua_settable(m_state, LUA_REGISTRYINDEX);
 }
 //-----------------------------------------------------------------
 /**
@@ -54,7 +58,7 @@ void
 ScriptState::insertErrorHandler(int index)
 {
     lua_pushliteral(m_state, "_TRACEBACK");
-    lua_rawget(m_state, LUA_GLOBALSINDEX);
+    lua_rawget(m_state, LUA_REGISTRYINDEX);
     lua_insert(m_state, index);
 }
 //-----------------------------------------------------------------

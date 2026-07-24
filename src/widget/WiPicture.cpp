@@ -18,7 +18,7 @@ WiPicture::WiPicture(const Path &picture)
 //-----------------------------------------------------------------
 WiPicture::~WiPicture()
 {
-    SDL_FreeSurface(m_surface);
+    SDL_DestroySurface(m_surface);
 }
 //-----------------------------------------------------------------
 void

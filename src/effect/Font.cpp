@@ -83,7 +83,7 @@ Font::~Font()
 void
 Font::init()
 {
-    if (TTF_Init() < 0) {
+    if (!TTF_Init()) {
         throw TTFException(ExInfo("Init"));
     }
 }
@@ -102,7 +102,7 @@ Font::shutdown()
 Font::calcTextWidth(const std::string &text)
 {
     int w;
-    TTF_SizeUTF8(m_ttfont, text.c_str(), &w, NULL);
+    TTF_GetStringSize(m_ttfont, text.c_str(), 0, &w, NULL);
     return w;
 }
 //-----------------------------------------------------------------
@@ -126,23 +126,17 @@ Font::renderText(const std::string &text, const SDL_Color &color) const
                 .addInfo("b", color.b));
     }
 
-    SDL_Surface *raw_surface = TTF_RenderUTF8_Shaded(m_ttfont, content.c_str(),
+    SDL_Surface *surface = TTF_RenderText_Shaded(m_ttfont, content.c_str(), 0,
             color, m_bg);
-    if (!raw_surface) {
-        throw TTFException(ExInfo("RenderUTF8")
+    if (!surface) {
+        throw TTFException(ExInfo("RenderText")
                 .addInfo("text", text));
     }
 
     //NOTE: at index 0 is bg color
-    if (SDL_SetColorKey(raw_surface, SDL_SRCCOLORKEY, 0) < 0) {
-        throw SDLException(ExInfo("SetColorKey"));
+    if (!SDL_SetSurfaceColorKey(surface, true, 0)) {
+        throw SDLException(ExInfo("SetSurfaceColorKey"));
     }
-
-    SDL_Surface *surface = SDL_DisplayFormat(raw_surface);
-    if (!surface) {
-        throw SDLException(ExInfo("DisplayFormat"));
-    }
-    SDL_FreeSurface(raw_surface);
 
     return surface;
 }

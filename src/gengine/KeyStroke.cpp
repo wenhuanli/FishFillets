@@ -12,33 +12,22 @@
 
 //-----------------------------------------------------------------
 /**
- * Create new keystroke from event.
- */
-KeyStroke::KeyStroke(const SDL_keysym &keysym)
-{
-    m_sym = keysym.sym;
-    m_mod = modStrip(keysym.mod);
-    m_unicode = keysym.unicode;
-}
-//-----------------------------------------------------------------
-/**
  * Create new keystroke.
- * NOTE: KMOD_ALT mean (KMOD_LALT and KMOD_RALT),
+ * NOTE: SDL_KMOD_ALT mean (SDL_KMOD_LALT and SDL_KMOD_RALT),
  * i.e. either ALTs pressed!
  *
- * @param sym SDLKey
- * @param mod SDLMod ored
+ * @param sym SDL_Keycode
+ * @param mod SDL_Keymod ored
  */
-KeyStroke::KeyStroke(SDLKey sym, int mod)
+KeyStroke::KeyStroke(SDL_Keycode sym, int mod)
 {
     m_sym = sym;
     m_mod = modStrip(mod);
-    m_unicode = 0;
 }
 //-----------------------------------------------------------------
 /**
  * Strip ignored modes.
- * KMOD_SHIFT|KMOD_NUM|KMOD_CAPS|KMOD_MODE are ignored.
+ * SDL_KMOD_SHIFT|SDL_KMOD_NUM|SDL_KMOD_CAPS|SDL_KMOD_MODE are ignored.
  */
     int
 KeyStroke::modStrip(int mod)
@@ -64,7 +53,7 @@ KeyStroke::less(const KeyStroke &other) const
 //-----------------------------------------------------------------
 /**
  * Test keyStroke equality.
- * KMOD_NUM|KMOD_CAPS|KMOD_MODE are ignored.
+ * SDL_KMOD_NUM|SDL_KMOD_CAPS|SDL_KMOD_MODE are ignored.
  *
  * @param other other keystroke
  * @return this == other
@@ -74,6 +63,33 @@ KeyStroke::equals(const KeyStroke &other) const
 {
     return m_sym == other.m_sym &&
         m_mod == other.m_mod;
+}
+//-----------------------------------------------------------------
+/**
+ * Approximate the plain ASCII character typed by this stroke, for the
+ * debug console. SDL3 dropped SDL 1.2's per-key unicode translation in
+ * favor of a separate text-input event stream; console text entry never
+ * supported more than ASCII anyway (see the "TODO: support UTF-8" note
+ * in ConsoleInput), so this derives the character straight from the
+ * keycode + shift state instead of wiring a whole new input pathway.
+ * @return ascii char, or 0 when this stroke doesn't map to plain text
+ */
+char
+KeyStroke::toAscii() const
+{
+    static const char *DIGITS_SHIFTED = ")!@#$%^&*(";
+
+    bool shift = (m_mod & SDL_KMOD_SHIFT) != 0;
+    if (m_sym >= SDLK_A && m_sym <= SDLK_Z) {
+        return static_cast<char>(shift ? m_sym - 32 : m_sym);
+    }
+    if (m_sym >= SDLK_0 && m_sym <= SDLK_9) {
+        return shift ? DIGITS_SHIFTED[m_sym - SDLK_0] : static_cast<char>(m_sym);
+    }
+    if (m_sym > 0 && m_sym < 128 && !shift) {
+        return static_cast<char>(m_sym);
+    }
+    return 0;
 }
 //-----------------------------------------------------------------
 /**

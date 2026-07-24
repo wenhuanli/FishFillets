@@ -10,11 +10,10 @@
 
 #include "Path.h"
 #include "ImgException.h"
-#include "SDLException.h"
 #include "OptionAgent.h"
 #include "Log.h"
 
-#include "SDL_image.h"
+#include "SDL3_image/SDL_image.h"
 
 // The set cache size allows to contain all fish images and animations
 // from level 'barrel'.
@@ -31,28 +30,19 @@ ResImagePack::ResImagePack(bool caching_enabled) {
 }
 //-----------------------------------------------------------------
 /**
- * Load unshared image from file
- * and convert image to diplayformat.
+ * Load unshared image from file.
  *
  * @return loaded surface
  * @throws ImgException when image cannot be loaded
- * @throws SDLException when image cannot be converted
  */
 SDL_Surface *
 ResImagePack::loadImage(const Path &file)
 {
-    SDL_Surface *raw_image = IMG_Load(file.getNative().c_str());
-    if (NULL == raw_image) {
+    SDL_Surface *surface = IMG_Load(file.getNative().c_str());
+    if (NULL == surface) {
         throw ImgException(ExInfo("Load")
                 .addInfo("file", file.getNative()));
     }
-
-    SDL_Surface *surface = SDL_DisplayFormatAlpha(raw_image);
-    if (NULL == surface) {
-        throw SDLException(ExInfo("DisplayFormat")
-                .addInfo("file", file.getNative()));
-    }
-    SDL_FreeSurface(raw_image);
 
     return surface;
 }
@@ -86,7 +76,7 @@ ResImagePack::unloadRes(SDL_Surface *res)
     if (m_caching_enabled) {
         CACHE->release(res);
     } else {
-        SDL_FreeSurface(res);
+        SDL_DestroySurface(res);
     }
 }
 

@@ -64,13 +64,13 @@ EffectZx::blit(SDL_Surface *screen, SDL_Surface *surface, int x, int y)
     SurfaceLock lock1(screen);
     SurfaceLock lock2(surface);
 
-    Uint32 colorZX1 = PixelTool::convertColor(screen->format,
+    Uint32 colorZX1 = PixelTool::convertColor(PixelTool::formatDetails(screen),
             PixelTool::getColor(surface, 0, 0));
-    Uint32 colorZX2 = PixelTool::convertColor(screen->format,
+    Uint32 colorZX2 = PixelTool::convertColor(PixelTool::formatDetails(screen),
             PixelTool::getColor(surface, 0, surface->h - 1));
-    Uint32 colorZX3 = PixelTool::convertColor(screen->format,
+    Uint32 colorZX3 = PixelTool::convertColor(PixelTool::formatDetails(screen),
             PixelTool::getColor(surface, surface->w - 1, 0));
-    Uint32 colorZX4 = PixelTool::convertColor(screen->format,
+    Uint32 colorZX4 = PixelTool::convertColor(PixelTool::formatDetails(screen),
             PixelTool::getColor(surface, surface->w - 1, surface->h - 1));
 
     PixelIterator pit(surface);

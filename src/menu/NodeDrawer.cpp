@@ -18,7 +18,7 @@
 #include "TimerAgent.h"
 #include "minmax.h"
 
-#include "SDL_gfxPrimitives.h"
+#include "DrawPrimitives.h"
 
 //-----------------------------------------------------------------
 NodeDrawer::NodeDrawer()
@@ -111,9 +111,9 @@ NodeDrawer::drawSelect(const V2 &loc) const
 
     const SDL_Surface *dot = m_imagePack->getRes("solved");
     int radius = max(dot->w, dot->h) / 2 + 1;
-    Uint32 colorRGBA = 0xffc61880;
+    SDL_Color color = DrawPrimitives::colorFromRGBA(0xffc61880);
 
-    filledCircleColor(m_screen, loc.getX(), loc.getY(), radius, colorRGBA);
+    DrawPrimitives::filledCircle(m_screen, loc.getX(), loc.getY(), radius, color);
 }
 //-----------------------------------------------------------------
 /**
@@ -132,23 +132,23 @@ NodeDrawer::drawSelected(const std::string &levelname) const
     SDL_Color color = {255, 255, 0, 255};
     SDL_Surface *surface = m_font->renderTextOutlined(levelname, color);
     SDL_BlitSurface(surface, NULL, m_screen, &rect);
-    SDL_FreeSurface(surface);
+    SDL_DestroySurface(surface);
 }
 //-----------------------------------------------------------------
 void
 NodeDrawer::drawEdge(const LevelNode *start, const LevelNode *end) const
 {
     //TODO: nice curves
-    Sint16 x1 = start->getLoc().getX();
-    Sint16 y1 = start->getLoc().getY();
-    Sint16 x2 = end->getLoc().getX();
-    Sint16 y2 = end->getLoc().getY();
+    int x1 = start->getLoc().getX();
+    int y1 = start->getLoc().getY();
+    int x2 = end->getLoc().getX();
+    int y2 = end->getLoc().getY();
 
-    Uint32 colorRGBA = 0xffff00ff;
-    aalineColor(m_screen, x1, y1, x2, y2, colorRGBA);
-    aalineColor(m_screen, x1 - 1, y1 - 1 , x2 - 1, y2 - 1, colorRGBA);
-    aalineColor(m_screen, x1 + 1, y1 + 1 , x2 + 1, y2 + 1, colorRGBA);
-    aalineColor(m_screen, x1 - 1, y1 + 1 , x2 - 1, y2 + 1, colorRGBA);
-    aalineColor(m_screen, x1 + 1, y1 - 1 , x2 + 1, y2 - 1, colorRGBA);
+    SDL_Color color = DrawPrimitives::colorFromRGBA(0xffff00ff);
+    DrawPrimitives::line(m_screen, x1, y1, x2, y2, color);
+    DrawPrimitives::line(m_screen, x1 - 1, y1 - 1 , x2 - 1, y2 - 1, color);
+    DrawPrimitives::line(m_screen, x1 + 1, y1 + 1 , x2 + 1, y2 + 1, color);
+    DrawPrimitives::line(m_screen, x1 - 1, y1 + 1 , x2 - 1, y2 + 1, color);
+    DrawPrimitives::line(m_screen, x1 + 1, y1 - 1 , x2 + 1, y2 - 1, color);
 }
 

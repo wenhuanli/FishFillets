@@ -1,0 +1,49 @@
+add_library(level STATIC
+    Anim.cpp Anim.h
+    ControlSym.h
+    Controls.cpp Controls.h
+    Cube.cpp Cube.h
+    Field.cpp Field.h
+    Goal.cpp Goal.h
+    KeyControl.cpp KeyControl.h
+    LayoutException.h
+    Level.cpp Level.h
+    LoadException.h
+    MarkMask.cpp MarkMask.h
+    ModelFactory.cpp ModelFactory.h
+    Room.cpp Room.h
+    Rules.cpp Rules.h
+    Shape.cpp Shape.h
+    ShapeBuilder.cpp ShapeBuilder.h
+    Unit.cpp Unit.h
+    View.cpp View.h
+    PhaseLocker.cpp PhaseLocker.h
+    LevelStatus.cpp LevelStatus.h
+    LevelScript.cpp LevelScript.h
+    ModelList.cpp ModelList.h
+    LevelInput.cpp LevelInput.h
+    OnCondition.h
+    OnStack.h
+    OnWall.h
+    OnStrongPad.h
+    Decor.h
+    RopeDecor.cpp RopeDecor.h
+    StepCounter.h
+    StepDecor.cpp StepDecor.h
+    game-script.cpp game-script.h
+    level-script.cpp level-script.h
+    DescFinder.h
+    StatusDisplay.cpp StatusDisplay.h
+    Landslip.cpp Landslip.h
+    LevelLoading.cpp LevelLoading.h
+    LevelCountDown.cpp LevelCountDown.h
+    RoomAccess.cpp RoomAccess.h
+    Dir.cpp Dir.h
+    MouseControl.cpp MouseControl.h
+    FinderAlg.cpp FinderAlg.h
+    FinderPlace.h
+    FinderField.cpp FinderField.h
+    CountAdvisor.h
+)
+target_include_directories(level PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(level PUBLIC gengine effect widget plan option state)
