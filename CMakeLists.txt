@@ -80,7 +80,6 @@ if(M_LIBRARY)
 endif()
 
 add_subdirectory(src)
-add_subdirectory(appdata)
 
 install(FILES fillets.6 DESTINATION ${CMAKE_INSTALL_MANDIR}/man6)
 
