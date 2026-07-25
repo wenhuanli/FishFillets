@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2004 Ivo Danihelka (ivo@danihelka.net)
+ * Copyright (C) 2026 Wenhuan Li (hikerhauk@gmail.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
