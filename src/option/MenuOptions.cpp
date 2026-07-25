@@ -108,8 +108,17 @@ MenuOptions::prepareMenu()
     vbox->addWidget(new WiSpace(0, 10));
     vbox->addWidget(createLangPanel(labels));
     vbox->addWidget(new WiSpace(0, 5));
-    vbox->addWidget(createSpeechPanel(labels));
-    vbox->addWidget(new WiSpace(0, 5));
+
+    //NOTE: the speech-language panel only appears once
+    //script/select_speech.lua defines at least one language - i.e. once
+    //voice audio is actually shipped. Until then there is nothing to
+    //choose between.
+    IWidget *speechBox = createSpeechPanel(labels);
+    if (speechBox) {
+        vbox->addWidget(speechBox);
+        vbox->addWidget(new WiSpace(0, 5));
+    }
+
     vbox->addWidget(createSubtitlesPanel(labels));
 
     IWidget *backButton = createBackButton(labels);
@@ -162,17 +171,24 @@ MenuOptions::createLangPanel(const Labels &labels)
 //-----------------------------------------------------------------
 /**
  * Creates menu to select 'speech'.
- * NOTE: default speech is customized in "script/init.lua"
+ * @return panel widget, or nullptr when script/select_speech.lua
+ * defines no speech languages (i.e. no voice audio is shipped)
  */
 IWidget *
 MenuOptions::createSpeechPanel(const Labels &labels)
 {
+    SelectLang *select = new SelectLang("speech",
+            Path::dataReadPath("script/select_speech.lua"));
+    if (!select->hasFlags()) {
+        delete select;
+        return nullptr;
+    }
+
     HBox *speechBox = new HBox();
     speechBox->addWidget(new WiPicture(
                 Path::dataReadPath("images/menu/speech.png")));
     speechBox->addWidget(new WiSpace(10, 0));
-    speechBox->addWidget(new SelectLang("speech",
-            Path::dataReadPath("script/select_speech.lua")));
+    speechBox->addWidget(select);
     speechBox->setTip(labels.getLabel("menu_speech"));
     return speechBox;
 }

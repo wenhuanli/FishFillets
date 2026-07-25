@@ -46,6 +46,7 @@ SelectLang::SelectLang(const std::string &option, const Path &datafile)
 {
     m_option = option;
     m_activeRow = new HBox();
+    m_flagCount = 0;
 
     m_script->registerFunc("select_addFlag", script_select_addFlag);
     scriptInclude(datafile);
@@ -62,6 +63,7 @@ SelectLang::addFlag(const std::string &value, const Path &picture)
     IWidget *flag = new RadioBox(m_option, value, picture);
     flag->setTip(value);
     m_activeRow->addWidget(flag);
+    m_flagCount++;
     if (m_activeRow->getW() > MAX_WIDTH) {
         addWidget(m_activeRow);
         m_activeRow = new HBox();
