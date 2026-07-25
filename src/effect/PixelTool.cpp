@@ -51,7 +51,8 @@ SDL_Color
 PixelTool::getColor(SDL_Surface *surface, int x, int y)
 {
     SDL_Color color;
-    SDL_GetRGBA(getPixel(surface, x, y), formatDetails(surface), nullptr,
+    SDL_GetRGBA(getPixel(surface, x, y), formatDetails(surface),
+            SDL_GetSurfacePalette(surface),
             &color.r, &color.g, &color.b, &color.a);
     return color;
 }
