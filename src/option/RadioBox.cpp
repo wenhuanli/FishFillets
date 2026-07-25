@@ -32,7 +32,7 @@ RadioBox::drawOn(SDL_Surface *screen)
         rect.w = getW();
         rect.h = getH();
 
-        Uint32 green = SDL_MapRGB(SDL_GetPixelFormatDetails(screen->format), NULL, 0x00, 0xff, 0x00);
+        Uint32 green = SDL_MapRGB(SDL_GetPixelFormatDetails(screen->format), nullptr, 0x00, 0xff, 0x00);
         SDL_FillSurfaceRect(screen, &rect, green);
     }
     WiContainer::drawOn(screen);

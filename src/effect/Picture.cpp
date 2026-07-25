@@ -62,7 +62,7 @@ Picture::drawOn(SDL_Surface *screen)
     rect.x = m_loc.getX();
     rect.y = m_loc.getY();
 
-    SDL_BlitSurface(m_surface, NULL, screen, &rect);
+    SDL_BlitSurface(m_surface, nullptr, screen, &rect);
 }
 
 

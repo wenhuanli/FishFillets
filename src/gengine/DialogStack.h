@@ -9,6 +9,7 @@ class PlannedDialog;
 #include "NoCopy.h"
 
 #include <list>
+#include <memory>
 #include <string>
 
 /**
@@ -16,9 +17,9 @@ class PlannedDialog;
  */
 class DialogStack : public NoCopy {
     private:
-        ResDialogPack *m_dialogs;
+        std::unique_ptr<ResDialogPack> m_dialogs;
 
-        typedef std::list<PlannedDialog*> t_running;
+        using t_running = std::list<PlannedDialog*>;
         t_running m_running;
         t_running m_cycling;
         PlannedDialog *m_activeDialog;

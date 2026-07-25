@@ -6,6 +6,7 @@ class BaseMsg;
 
 #include "NoCopy.h"
 
+#include <memory>
 #include <string>
 #include <map>
 
@@ -14,8 +15,8 @@ class BaseMsg;
  */
 class Environ : public NoCopy {
     private:
-        typedef std::map<std::string,std::string> t_values;
-        typedef std::multimap<std::string,BaseMsg*> t_watchers;
+        using t_values = std::map<std::string,std::string>;
+        using t_watchers = std::multimap<std::string,std::unique_ptr<BaseMsg>>;
         t_values m_values;
         t_watchers m_watchers;
     public:

@@ -12,7 +12,7 @@ class GameState;
  */
 class StateManager : public NoCopy {
     private:
-        typedef std::list<GameState*> t_states;
+        using t_states = std::list<GameState*>;
         t_states m_states;
         t_states m_trash;
     private:

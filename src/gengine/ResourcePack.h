@@ -16,11 +16,11 @@
 template <class T>
 class ResourcePack : public INamed {
     public:
-    typedef std::vector<T> t_range;
+    using t_range = std::vector<T>;
     protected:
-    typedef std::multimap<std::string,T> t_reses;
-    typedef typename t_reses::iterator t_resIterator;
-    typedef typename t_reses::const_iterator t_constIterator;
+    using t_reses = std::multimap<std::string,T>;
+    using t_resIterator = typename t_reses::iterator;
+    using t_constIterator = typename t_reses::const_iterator;
     t_reses m_reses;
 
     public:
@@ -115,11 +115,11 @@ class ResourcePack : public INamed {
     }
     //-----------------------------------------------------------------
     /**
-     * Get resource at random index or return NULL.
+     * Get resource at random index or return nullptr.
      */
     T getRandomRes(const std::string &name)
     {
-        T result = NULL;
+        T result = nullptr;
         typename t_reses::size_type count = m_reses.count(name);
         if (count > 0) {
             result = getRes(name, Random::randomInt(count));

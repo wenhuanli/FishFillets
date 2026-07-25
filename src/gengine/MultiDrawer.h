@@ -10,7 +10,7 @@
  */
 class MultiDrawer : public Drawable {
     private:
-        typedef std::vector<Drawable*> t_drawers;
+        using t_drawers = std::vector<Drawable*>;
         t_drawers m_drawers;
     public:
         void acceptDrawer(Drawable *drawer);

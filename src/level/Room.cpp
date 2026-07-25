@@ -105,7 +105,7 @@ Room::addDecor(Decor *new_decor)
 /**
  * Add model at scene.
  * @param new_model new object
- * @param new_unit driver for the object or NULL
+ * @param new_unit driver for the object or nullptr
  * @return model index
  */
     int
@@ -131,7 +131,7 @@ Room::addModel(Cube *new_model, Unit *new_unit)
     Cube *
 Room::getModel(int model_index)
 {
-    Cube *result = NULL;
+    Cube *result = nullptr;
     if (0 <= model_index && model_index < (int)m_models.size()) {
         result = m_models[model_index];
     }

@@ -36,10 +36,10 @@ Cube::Cube(const V2 &location,
     m_outDir = Dir::DIR_NO;
     m_outCapacity = 0;
 
-    m_shape = new_shape;
-    m_rules = new Rules(this);
-    m_anim = new Anim();
-    m_dialogs = NULL;
+    m_shape.reset(new_shape);
+    m_rules = std::make_unique<Rules>(this);
+    m_anim = std::make_unique<Anim>();
+    m_dialogs = nullptr;
 }
 //-----------------------------------------------------------------
 /**
@@ -48,9 +48,9 @@ Cube::Cube(const V2 &location,
 Cube::~Cube()
 {
     //NOTE: rules must be destroyed before shape because they unmask self
-    delete m_rules;
-    delete m_shape;
-    delete m_anim;
+    m_rules.reset();
+    m_shape.reset();
+    m_anim.reset();
 }
 //-----------------------------------------------------------------
 /**

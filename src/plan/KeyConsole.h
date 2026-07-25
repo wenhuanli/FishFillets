@@ -7,6 +7,7 @@ class Font;
 #include "Drawable.h"
 #include "Color.h"
 
+#include <memory>
 #include <string>
 #include "SDL3/SDL.h"
 
@@ -15,7 +16,7 @@ class Font;
  */
 class KeyConsole : public GameState, public Drawable {
     private:
-        Font *m_font;
+        std::unique_ptr<Font> m_font;
         Color m_color;
         std::string m_input;
     protected:

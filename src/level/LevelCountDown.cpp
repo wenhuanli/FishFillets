@@ -23,7 +23,7 @@ LevelCountDown::LevelCountDown(const RoomAccess *access)
 {
     m_countdown = -1;
     m_access = access;
-    m_levelStatus = NULL;
+    m_levelStatus = nullptr;
 }
 //-----------------------------------------------------------------
 /**
@@ -33,8 +33,8 @@ LevelCountDown::LevelCountDown(const RoomAccess *access)
 void
 LevelCountDown::reset()
 {
-    if (NULL == m_levelStatus) {
-        throw LogicException(ExInfo("level status is NULL"));
+    if (nullptr == m_levelStatus) {
+        throw LogicException(ExInfo("level status is nullptr"));
     }
     m_levelStatus->setRunning(true);
     m_countdown = -1;
@@ -102,8 +102,8 @@ LevelCountDown::saveSolution()
 }
 //-----------------------------------------------------------------
 /**
- * Creates next state or returns NULL.
- * @return returns NULL when only quitState() is needed
+ * Creates next state or returns nullptr.
+ * @return returns nullptr when only quitState() is needed
  */
 GameState *
 LevelCountDown::createNextState()

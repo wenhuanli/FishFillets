@@ -65,7 +65,7 @@ Title::drawOn(SDL_Surface *screen)
     rect.x = m_x;
     rect.y = m_y;
 
-    SDL_BlitSurface(m_surface, NULL, screen, &rect);
+    SDL_BlitSurface(m_surface, nullptr, screen, &rect);
 }
 //-----------------------------------------------------------------
 /**

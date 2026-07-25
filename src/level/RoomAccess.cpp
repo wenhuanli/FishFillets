@@ -17,7 +17,7 @@
  */
 RoomAccess::RoomAccess()
 {
-    m_room = NULL;
+    m_room = nullptr;
 }
 //-----------------------------------------------------------------
 RoomAccess::~RoomAccess()
@@ -40,7 +40,7 @@ RoomAccess::cleanRoom()
 {
     if (m_room) {
         delete m_room;
-        m_room = NULL;
+        m_room = nullptr;
     }
 }
 //-----------------------------------------------------------------
@@ -51,7 +51,7 @@ RoomAccess::cleanRoom()
 void
 RoomAccess::checkRoom() const
 {
-    if (NULL == m_room) {
+    if (nullptr == m_room) {
         throw LogicException(ExInfo("room is not ready"));
     }
 }

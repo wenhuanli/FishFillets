@@ -28,7 +28,7 @@ PixelTool::colorEquals(const SDL_Color &color1, const SDL_Color &color2)
 Uint32
 PixelTool::convertColor(const SDL_PixelFormatDetails *format, const SDL_Color &color)
 {
-    return SDL_MapRGB(format, NULL, color.r, color.g, color.b);
+    return SDL_MapRGB(format, nullptr, color.r, color.g, color.b);
 }
 //-----------------------------------------------------------------
 /**
@@ -51,7 +51,7 @@ SDL_Color
 PixelTool::getColor(SDL_Surface *surface, int x, int y)
 {
     SDL_Color color;
-    SDL_GetRGBA(getPixel(surface, x, y), formatDetails(surface), NULL,
+    SDL_GetRGBA(getPixel(surface, x, y), formatDetails(surface), nullptr,
             &color.r, &color.g, &color.b, &color.a);
     return color;
 }
@@ -65,7 +65,7 @@ void
 PixelTool::putColor(SDL_Surface *surface, int x, int y,
         const SDL_Color &color)
 {
-    Uint32 pixel = SDL_MapRGBA(formatDetails(surface), NULL,
+    Uint32 pixel = SDL_MapRGBA(formatDetails(surface), nullptr,
             color.r, color.g, color.b, color.a);
     putPixel(surface, x, y, pixel);
 }
@@ -143,7 +143,7 @@ PixelTool::unpackPixel(Uint8 bpp, Uint8 *p)
     void
 PixelTool::packPixel(Uint8 bpp, Uint8 *p, Uint32 pixel)
 {
-    assert(p != NULL);
+    assert(p != nullptr);
 
     switch(bpp) {
         case 1:

@@ -95,12 +95,12 @@ ModelFactory::createParams(const std::string &kind,
 /**
  * Create unit for driveable fish.
  * @param kind kind of item (e.g. "fish_big", "item_light", ...)
- * @return new unit or NULL
+ * @return new unit or nullptr
  */
 Unit *
 ModelFactory::createUnit(const std::string &kind)
 {
-    Unit *result = NULL;
+    Unit *result = nullptr;
     if ("fish_small" == kind) {
         KeyControl smallfish;
         smallfish.setUp(SDLK_I);

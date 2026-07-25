@@ -22,7 +22,7 @@ PlannedDialog::PlannedDialog(int actor, const Dialog *dialog, int minTime)
 {
     m_actor = actor;
     m_dialog = dialog;
-    m_track = NULL;
+    m_track = nullptr;
     m_endtime = 0;
     m_minTime = minTime;
 }

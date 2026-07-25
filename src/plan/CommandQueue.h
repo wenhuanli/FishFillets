@@ -12,7 +12,7 @@ class Command;
  */
 class CommandQueue : public NoCopy {
     private:
-        typedef std::deque<Command*> t_commands;
+        using t_commands = std::deque<Command*>;
         t_commands m_commands;
         int m_count;
     public:

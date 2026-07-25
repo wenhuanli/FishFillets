@@ -13,40 +13,29 @@
 #include "Rules.h"
 #include "ModelFactory.h"
 
-#include <string.h> // memset()
-
 //-----------------------------------------------------------------
 /**
  * Two dimensional array of Cube pointers.
+ * NOTE: [y][x] indexes
  */
 Field::Field(int w, int h)
+    : m_marks(h, std::vector<Cube*>(w, nullptr))
 {
     m_w = w;
     m_h = h;
 
     m_border = ModelFactory::createBorder();
     m_border->rules()->takeField(this);
-
-    //NOTE: [y][x] indexes
-    m_marks = new Cube**[m_h];
-    for (int y = 0; y < m_h; ++y) {
-        m_marks[y] = new Cube*[m_w];
-        memset(m_marks[y], 0, sizeof(Cube *) * m_w);
-    }
 }
 //-----------------------------------------------------------------
 Field::~Field()
 {
-    for (int y = 0; y < m_h; ++y) {
-        delete [] m_marks[y];
-    }
-    delete [] m_marks;
     delete m_border;
 }
 //-----------------------------------------------------------------
 /**
  * Get model which occupied this location.
- * Empty locations are NULL filled.
+ * Empty locations are nullptr filled.
  * Locations out of field are filled with border object.
  */
 Cube *
@@ -68,7 +57,7 @@ Field::getModel(const V2 &loc)
  * Locations out of field will not be filled.
  * @param loc write location
  * @param model model to put on given location 
- * @param toOverride allowed model to overwrite or NULL
+ * @param toOverride allowed model to overwrite or nullptr
  */
 void
 Field::setModel(const V2 &loc, Cube *model, Cube *toOverride)
@@ -77,7 +66,7 @@ Field::setModel(const V2 &loc, Cube *model, Cube *toOverride)
     int y = loc.getY();
 
     if ((0 <= x && x < m_w) && (0 <= y && y < m_h)) {
-        if (toOverride == NULL || m_marks[y][x] == toOverride) {
+        if (toOverride == nullptr || m_marks[y][x] == toOverride) {
             m_marks[y][x] = model;
         }
     }

@@ -10,6 +10,8 @@ class Drawable;
 #include "NoCopy.h"
 #include "BaseListener.h"
 
+#include <memory>
+
 /**
  * Game state.
  * GameState installs own InputHandler in init phase.
@@ -24,7 +26,7 @@ class GameState : public BaseListener, public NoCopy {
         bool m_onBg;
         GameState *m_nextState;
         InputHandler *m_handler;
-        MultiDrawer *m_drawer;
+        std::unique_ptr<MultiDrawer> m_drawer;
         StateManager *m_manager;
     protected:
         void takeHandler(InputHandler *new_handler);

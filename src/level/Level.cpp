@@ -45,7 +45,7 @@
     Level::Level(const std::string &codename, const Path &datafile, int depth)
 : m_codename(codename), m_datafile(datafile)
 {
-    m_desc = NULL;
+    m_desc = nullptr;
     m_restartCounter = 1;
     m_undoSteps = 0;
     m_wasDangerousMove = false;
@@ -91,8 +91,8 @@ Level::fillStatus(LevelStatus *status)
     void
 Level::own_initState()
 {
-    if (NULL == m_desc) {
-        throw LogicException(ExInfo("level description is NULL")
+    if (nullptr == m_desc) {
+        throw LogicException(ExInfo("level description is nullptr")
                 .addInfo("codename", m_codename));
     }
     m_countdown->reset();

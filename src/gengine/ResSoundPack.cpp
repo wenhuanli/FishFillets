@@ -21,12 +21,12 @@ ResSoundPack::unloadRes(MIX_Audio *res)
 //-----------------------------------------------------------------
 /**
  * Load unshared sound from file.
- * @return sound or NULL
+ * @return sound or nullptr
  */
     MIX_Audio *
 ResSoundPack::loadSound(const Path &file)
 {
-    MIX_Audio *sound = NULL;
+    MIX_Audio *sound = nullptr;
     if (OptionAgent::agent()->getAsBool("sound", true)) {
         sound = SoundAgent::agent()->loadSound(file);
     }

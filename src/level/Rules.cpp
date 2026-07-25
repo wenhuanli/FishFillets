@@ -35,7 +35,7 @@ Rules::Rules(Cube *model)
     m_touchDir = Dir::DIR_NO;
 
     m_model = model;
-    m_mask = NULL;
+    m_mask = nullptr;
     m_lastFall = false;
 }
 //-----------------------------------------------------------------
@@ -46,7 +46,6 @@ Rules::~Rules()
 {
     if (m_mask) {
         m_mask->unmask();
-        delete m_mask;
     }
 }
 //-----------------------------------------------------------------
@@ -59,11 +58,10 @@ Rules::takeField(Field *field)
 {
     if (m_mask) {
         m_mask->unmask();
-        delete m_mask;
-        m_mask = NULL;
+        m_mask.reset();
     }
 
-    m_mask = new MarkMask(m_model, field);
+    m_mask = std::make_unique<MarkMask>(m_model, field);
     Cube::t_models resist = m_mask->getResist(Dir::DIR_NO);
     if (!resist.empty()) {
         throw LayoutException(ExInfo("position is occupied")

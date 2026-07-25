@@ -21,7 +21,7 @@ PixelIterator::PixelIterator(SDL_Surface *surface)
 {
     m_surface = surface;
     m_details = PixelTool::formatDetails(surface);
-    m_lock = new SurfaceLock(m_surface);
+    m_lock = std::make_unique<SurfaceLock>(m_surface);
     m_p = static_cast<Uint8*>(surface->pixels);
     m_end = m_p + m_surface->h * m_surface->pitch;
     m_bpp = m_details->bytes_per_pixel;
@@ -30,10 +30,7 @@ PixelIterator::PixelIterator(SDL_Surface *surface)
 /**
  * Unlocks surface.
  */
-PixelIterator::~PixelIterator()
-{
-    delete m_lock;
-}
+PixelIterator::~PixelIterator() = default;
 //-----------------------------------------------------------------
     void
 PixelIterator::setPos(const V2 &pos)
@@ -59,7 +56,7 @@ SDL_Color
 PixelIterator::getColor() const
 {
     SDL_Color color;
-    SDL_GetRGBA(getPixel(), m_details, NULL,
+    SDL_GetRGBA(getPixel(), m_details, nullptr,
             &color.r, &color.g, &color.b, &color.a);
     return color;
 }
@@ -73,7 +70,7 @@ PixelIterator::getPixel() const
     void
 PixelIterator::putColor(const SDL_Color &color)
 {
-    Uint32 pixel = SDL_MapRGBA(m_details, NULL,
+    Uint32 pixel = SDL_MapRGBA(m_details, nullptr,
             color.r, color.g, color.b, color.a);
     putPixel(pixel);
 }

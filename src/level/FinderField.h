@@ -5,17 +5,18 @@ class V2;
 
 #include "NoCopy.h"
 
+#include <vector>
+
 /**
  * Array of closed nodes used for finding.
  */
 class FinderField : public NoCopy {
     private:
-        bool **m_closed;
+        std::vector<std::vector<bool>> m_closed;
         int m_w;
         int m_h;
     public:
         FinderField(int w, int h);
-        virtual ~FinderField();
         void reset();
 
         void markClosed(const V2 &loc);

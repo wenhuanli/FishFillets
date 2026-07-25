@@ -13,7 +13,7 @@ class BaseMsg;
  */
 class KeyBinder : public NoCopy {
     private:
-        typedef std::map<KeyStroke,BaseMsg*,stroke_less> t_strokes;
+        using t_strokes = std::map<KeyStroke,BaseMsg*,stroke_less>;
         t_strokes m_strokes;
     public:
         ~KeyBinder();

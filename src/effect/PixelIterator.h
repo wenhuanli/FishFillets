@@ -8,6 +8,8 @@ class SurfaceLock;
 
 #include "SDL3/SDL.h"
 
+#include <memory>
+
 /**
  * Iterator over surface pixels.
  */
@@ -15,7 +17,7 @@ class PixelIterator : public NoCopy {
     private:
         SDL_Surface *m_surface;
         const SDL_PixelFormatDetails *m_details;
-        SurfaceLock *m_lock;
+        std::unique_ptr<SurfaceLock> m_lock;
         Uint8 *m_p;
         Uint8 *m_end;
         Uint8 m_bpp;

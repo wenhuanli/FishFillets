@@ -27,7 +27,7 @@ Unit::Unit(const KeyControl &buttons, const ControlSym &symbols,
         bool a_startActive)
     : m_buttons(buttons), m_symbols(symbols)
 {
-    m_model = NULL;
+    m_model = nullptr;
     m_startActive = a_startActive;
 }
 //-----------------------------------------------------------------

@@ -65,6 +65,6 @@ void
 MenuHelp::drawOn(SDL_Surface *screen)
 {
     SDL_Color gray = {0x00, 0x00, 0x00, 129};
-    SurfaceTool::alphaFill(screen, NULL, gray);
+    SurfaceTool::alphaFill(screen, nullptr, gray);
 }
 

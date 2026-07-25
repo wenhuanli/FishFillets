@@ -5,6 +5,8 @@
 #include "Cube.h"
 #include "ModelList.h"
 
+#include <vector>
+
 /**
  * Landslip for every round.
  */
@@ -12,7 +14,7 @@ class Landslip : public NoCopy {
     private:
         ModelList m_models;
         Cube::eWeight m_impact;
-        bool *m_stoned;
+        std::vector<bool> m_stoned;
     private:
         bool isOnPad(const Cube *model) const;
         bool isFixed(const Cube *model) const;
@@ -20,7 +22,6 @@ class Landslip : public NoCopy {
         void stone(const Cube *model);
     public:
         Landslip(const ModelList &models);
-        ~Landslip();
 
         bool computeFall();
         Cube::eWeight getImpact() { return m_impact; }

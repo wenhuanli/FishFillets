@@ -14,7 +14,7 @@
 InputHandler::InputHandler()
 : m_mouseLoc(-1, -1)
 {
-    m_pressed = NULL;
+    m_pressed = nullptr;
     m_buttons = 0;
 }
 //-----------------------------------------------------------------
@@ -33,7 +33,7 @@ InputHandler::isPressed(SDL_Keycode key) const
     if (!m_pressed) {
         return false;
     }
-    SDL_Scancode scancode = SDL_GetScancodeFromKey(key, NULL);
+    SDL_Scancode scancode = SDL_GetScancodeFromKey(key, nullptr);
     return m_pressed[scancode];
 }
 //-----------------------------------------------------------------

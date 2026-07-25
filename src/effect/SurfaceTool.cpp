@@ -30,7 +30,7 @@ SurfaceTool::createEmpty(SDL_Surface *surface, int width, int height)
     }
 
     SDL_Surface *result = SDL_CreateSurface(width, height, surface->format);
-    if (NULL == result) {
+    if (nullptr == result) {
         throw SDLException(ExInfo("CreateSurface"));
     }
     return result;
@@ -43,7 +43,7 @@ SurfaceTool::createEmpty(SDL_Surface *surface, int width, int height)
 SurfaceTool::createTransparent(int w, int h, const SDL_Color &transparent)
 {
     SDL_Surface *surface = SDL_CreateSurface(w, h, SDL_PIXELFORMAT_RGBA32);
-    if (NULL == surface) {
+    if (nullptr == surface) {
         throw SDLException(ExInfo("CreateSurface"));
     }
 
@@ -52,7 +52,7 @@ SurfaceTool::createTransparent(int w, int h, const SDL_Color &transparent)
     SDL_SetSurfaceColorKey(surface, true, transparentKey);
     SDL_SetSurfaceRLE(surface, true);
 
-    SurfaceTool::alphaFill(surface, NULL, transparent);
+    SurfaceTool::alphaFill(surface, nullptr, transparent);
     return surface;
 }
 //-----------------------------------------------------------------
@@ -65,7 +65,7 @@ SurfaceTool::createTransparent(int w, int h, const SDL_Color &transparent)
 SurfaceTool::createClone(SDL_Surface *surface)
 {
     SDL_Surface *clone = SDL_ConvertSurface(surface, surface->format);
-    if (NULL == clone) {
+    if (nullptr == clone) {
         throw SDLException(ExInfo("ConvertSurface"));
     }
     return clone;
@@ -76,7 +76,7 @@ SurfaceTool::createClone(SDL_Surface *surface)
  * The final blit rectangle is saved in dstrect.
  *
  * @param surface surface to fill
- * @param dstrect dstrect or NULL (the whole surface will be filled with color).
+ * @param dstrect dstrect or nullptr (the whole surface will be filled with color).
  * @param color {red, green, blue, alpha}
  */
     void
@@ -91,11 +91,11 @@ SurfaceTool::alphaFill(SDL_Surface *surface, SDL_Rect *dstrect,
     }
     SDL_Surface *canvas = createEmpty(surface, w, h);
     Uint32 pixel = PixelTool::convertColor(PixelTool::formatDetails(canvas), color);
-    SDL_FillSurfaceRect(canvas, NULL, pixel);
+    SDL_FillSurfaceRect(canvas, nullptr, pixel);
     SDL_SetSurfaceAlphaMod(canvas, color.a);
     SDL_SetSurfaceRLE(canvas, true);
 
-    SDL_BlitSurface(canvas, NULL, surface, dstrect);
+    SDL_BlitSurface(canvas, nullptr, surface, dstrect);
     SDL_DestroySurface(canvas);
 }
 

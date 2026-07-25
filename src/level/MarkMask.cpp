@@ -24,9 +24,9 @@ MarkMask::MarkMask(Cube *model, Field *field)
 //-----------------------------------------------------------------
 /**
  * Return others which resist us to move this direction.
- * Pointers to NULL and own model are not included.
+ * Pointers to nullptr and own model are not included.
  *
- * @return unique pointers, not NULL
+ * @return unique pointers, not nullptr
  */
 Cube::t_models
 MarkMask::getResist(Dir::eDir dir) const
@@ -39,9 +39,9 @@ MarkMask::getResist(Dir::eDir dir) const
 //-----------------------------------------------------------------
 /**
  * Return others which resist at given location.
- * Pointers to NULL and own model are not included.
+ * Pointers to nullptr and own model are not included.
  *
- * @return unique pointers, not NULL
+ * @return unique pointers, not nullptr
  */
 Cube::t_models
 MarkMask::getPlacedResist(const V2 &loc) const
@@ -53,7 +53,7 @@ MarkMask::getPlacedResist(const V2 &loc) const
         V2 mark = loc.plus(*i);
 
         Cube *resist = m_field->getModel(mark);
-        if (NULL != resist && m_model != resist) {
+        if (nullptr != resist && m_model != resist) {
             models.push_back(resist);
         }
     }
@@ -68,7 +68,7 @@ MarkMask::getPlacedResist(const V2 &loc) const
 void
 MarkMask::mask()
 {
-    writeModel(m_model, NULL);
+    writeModel(m_model, nullptr);
 }
 //-----------------------------------------------------------------
 /**
@@ -77,7 +77,7 @@ MarkMask::mask()
 void
 MarkMask::unmask()
 {
-    writeModel(NULL, m_model);
+    writeModel(nullptr, m_model);
 }
 //-----------------------------------------------------------------
 void
@@ -150,7 +150,7 @@ MarkMask::isFullyOut() const
     for (Shape::const_iterator i = shape->marksBegin(); i != end; ++i) {
         V2 mark = loc.plus(*i);
         Cube *place = m_field->getModel(mark);
-        if (place == NULL || !place->isBorder()) {
+        if (place == nullptr || !place->isBorder()) {
             return false;
         }
     }

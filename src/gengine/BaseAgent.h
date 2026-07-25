@@ -41,7 +41,7 @@ virtual const char *getName() const { return (NAME); } \
 static TYPE *agent() \
 { \
     TYPE *result = dynamic_cast<TYPE *>(AgentPack::getAgent(sName())); \
-    if (NULL == result) { \
+    if (nullptr == result) { \
         throw NameException(ExInfo("cannot cast agent") \
                 .addInfo("name", sName())); \
     } \

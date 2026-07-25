@@ -36,9 +36,9 @@
 WorldMap::WorldMap()
     : m_lastMouseLoc(-1, -1)
 {
-    m_selected = NULL;
-    m_startNode = NULL;
-    m_ending = NULL;
+    m_selected = nullptr;
+    m_startNode = nullptr;
+    m_ending = nullptr;
     prepareBg();
 
     m_drawer = new NodeDrawer();
@@ -90,9 +90,9 @@ WorldMap::prepareBg()
     void
 WorldMap::initMap(const Path &mapfile)
 {
-    WorldBranch parser(NULL);
+    WorldBranch parser(nullptr);
     m_startNode = parser.parseMap(mapfile, &m_ending, m_descPack);
-    if (NULL == m_startNode) {
+    if (nullptr == m_startNode) {
         throw LogicException(ExInfo("cannot create world map")
                 .addInfo("file", mapfile.getNative()));
     }
@@ -125,7 +125,7 @@ WorldMap::own_updateState()
     void
 WorldMap::own_resumeState()
 {
-    LevelNode *nextLevel = NULL;
+    LevelNode *nextLevel = nullptr;
     if (m_levelStatus->wasRunning()) {
         if (m_levelStatus->isComplete()) {
             markSolved();
@@ -144,7 +144,7 @@ WorldMap::own_resumeState()
     m_selected = nextLevel;
 
     SoundAgent::agent()->playMusic(
-            Path::dataReadPath("music/menu.ogg"), NULL);
+            Path::dataReadPath("music/menu.ogg"), nullptr);
 }
 //-----------------------------------------------------------------
 /**
@@ -230,12 +230,12 @@ WorldMap::runSelected()
 }
 //-----------------------------------------------------------------
 /**
- * Return selected level or NULL.
+ * Return selected level or nullptr.
  */
 Level *
 WorldMap::createSelected() const
 {
-    Level *result = NULL;
+    Level *result = nullptr;
     if (m_selected) {
         result = m_selected->createLevel();
         result->fillDesc(this);

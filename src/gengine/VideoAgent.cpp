@@ -32,8 +32,8 @@
     void
 VideoAgent::own_init()
 {
-    m_window = NULL;
-    m_screen = NULL;
+    m_window = nullptr;
+    m_screen = nullptr;
     m_fullscreen = false;
     if (!SDL_Init(SDL_INIT_VIDEO)) {
         throw SDLException(ExInfo("Init"));
@@ -75,7 +75,7 @@ VideoAgent::own_shutdown()
 VideoAgent::setIcon(const Path &file)
 {
     SDL_Surface *icon = IMG_Load(file.getNative().c_str());
-    if (NULL == icon) {
+    if (nullptr == icon) {
         throw ImgException(ExInfo("Load")
                 .addInfo("file", file.getNative()));
     }
@@ -102,7 +102,7 @@ VideoAgent::initVideoMode()
     int screen_height = options->getAsInt("screen_height", 480);
     std::string caption = options->getParam("caption", "A game");
 
-    if (NULL == m_window
+    if (nullptr == m_window
             || m_screen->w != screen_width
             || m_screen->h != screen_height)
     {
@@ -130,13 +130,13 @@ VideoAgent::changeVideoMode(int screen_width, int screen_height,
 
     if (m_window) {
         SDL_DestroyWindow(m_window);
-        m_window = NULL;
-        m_screen = NULL;
+        m_window = nullptr;
+        m_screen = nullptr;
     }
 
     SDL_Window *newWindow =
         SDL_CreateWindow(caption.c_str(), screen_width, screen_height, videoFlags);
-    if (NULL == newWindow && (videoFlags & SDL_WINDOW_FULLSCREEN)) {
+    if (nullptr == newWindow && (videoFlags & SDL_WINDOW_FULLSCREEN)) {
         LOG_WARNING(ExInfo("unable to use fullscreen resolution, trying windowed")
                 .addInfo("width", screen_width)
                 .addInfo("height", screen_height));
@@ -149,7 +149,7 @@ VideoAgent::changeVideoMode(int screen_width, int screen_height,
     if (newWindow) {
         m_window = newWindow;
         m_screen = SDL_GetWindowSurface(m_window);
-        if (NULL == m_screen) {
+        if (nullptr == m_screen) {
             throw SDLException(ExInfo("GetWindowSurface"));
         }
         //NOTE: must be two times to change MouseState

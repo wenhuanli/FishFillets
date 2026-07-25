@@ -6,6 +6,8 @@ class Cube;
 
 #include "NoCopy.h"
 
+#include <vector>
+
 /**
  * Two dimensional game field.
  */
@@ -13,7 +15,7 @@ class Field : public NoCopy {
     private:
         int m_w;
         int m_h;
-        Cube ***m_marks;
+        std::vector<std::vector<Cube*>> m_marks;
         Cube *m_border;
     public:
         Field(int w, int h);

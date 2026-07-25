@@ -10,6 +10,8 @@ class OnCondition;
 #include "Cube.h"
 #include "Dir.h"
 
+#include <memory>
+
 /**
  * Game rules.
  */
@@ -25,7 +27,7 @@ class Rules : public NoCopy {
         Dir::eDir m_touchDir;
 
         Cube *m_model;
-        MarkMask *m_mask;
+        std::unique_ptr<MarkMask> m_mask;
     private:
         bool checkDeadMove();
         bool checkDeadFall();

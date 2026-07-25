@@ -2,16 +2,15 @@
 #define HEADER_NOCOPY_H
 
 /**
- * Class with private copy constructor and assign operator.
+ * Class with deleted copy constructor and assign operator.
  */
 class NoCopy {
-    private:
-        NoCopy(const NoCopy &) {}
-        void operator=(const NoCopy &) {}
     public:
-        NoCopy() {}
-        virtual ~NoCopy() {}
+        NoCopy() = default;
+        virtual ~NoCopy() = default;
 
+        NoCopy(const NoCopy &) = delete;
+        NoCopy &operator=(const NoCopy &) = delete;
 };
 
 #endif

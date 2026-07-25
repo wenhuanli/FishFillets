@@ -21,7 +21,7 @@
 ShapeBuilder::prepareColor(SDL_Color *color, const Shape *shape,
         Cube::eWeight weight)
 {
-    if (NULL == color) {
+    if (nullptr == color) {
         return;
     }
 

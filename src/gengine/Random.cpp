@@ -18,7 +18,7 @@ unsigned char Random::ms_randArray[];
  */
 void
 Random::init() {
-    srand( static_cast<unsigned>(time(NULL)) );
+    srand( static_cast<unsigned>(time(nullptr)) );
     for (int i = 0; i < ARRAY_SIZE; ++i) {
         ms_randArray[i] = randomInt(256);
     }

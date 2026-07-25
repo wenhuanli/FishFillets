@@ -10,6 +10,7 @@ class Color;
 #include "Drawable.h"
 #include "Name.h"
 
+#include <memory>
 #include <string>
 #include <deque>
 
@@ -24,11 +25,11 @@ class SubTitleAgent : public BaseAgent, public Drawable {
     static const int TITLE_SPEED = 2;
     static const int TITLE_BORDER = 20;
     static const int TITLE_LIMIT_Y = TITLE_BASE + 5 * TITLE_ROW;
-    typedef std::deque<Title*> t_titles;
+    using t_titles = std::deque<Title*>;
     t_titles m_titles;
 
-    Font *m_font;
-    ResColorPack *m_colors;
+    std::unique_ptr<Font> m_font;
+    std::unique_ptr<ResColorPack> m_colors;
     int m_limitY;
     private:
     std::string splitAndCreate(const std::string &subtitle, const Color *color);
@@ -43,6 +44,8 @@ class SubTitleAgent : public BaseAgent, public Drawable {
     virtual void own_update();
     virtual void own_shutdown();
     public:
+    SubTitleAgent();
+    virtual ~SubTitleAgent();
     int getLimitY() const { return m_limitY; }
     void setLimitY(int limitY) { m_limitY = limitY; }
     void addFont(const std::string &fontname, Color *new_color);

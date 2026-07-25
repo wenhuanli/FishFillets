@@ -31,8 +31,8 @@
 //-----------------------------------------------------------------
 MenuOptions::MenuOptions()
 {
-    m_container = NULL;
-    m_statusBar = NULL;
+    m_container = nullptr;
+    m_statusBar = nullptr;
     m_needRefresh = false;
     registerDrawable(this);
     prepareMenu();
@@ -93,7 +93,7 @@ MenuOptions::prepareMenu()
     if (m_container) {
         deregisterDrawable(m_container);
         delete m_container;
-        m_container = NULL;
+        m_container = nullptr;
     }
 
     Labels labels(Path::dataReadPath("script/labels.lua"));
@@ -223,7 +223,7 @@ void
 MenuOptions::drawOn(SDL_Surface *screen)
 {
     SDL_Color gray = {0xf0, 0xf0, 0xf0, 129};
-    SurfaceTool::alphaFill(screen, NULL, gray);
+    SurfaceTool::alphaFill(screen, nullptr, gray);
 }
 //-----------------------------------------------------------------
 /**

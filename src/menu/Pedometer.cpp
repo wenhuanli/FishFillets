@@ -29,7 +29,7 @@ Pedometer::Pedometer(LevelStatus *status, Level *new_level)
     m_status = status;
     m_solution = m_status->readSolvedMoves();
     m_meterPhase = 0;
-    m_bg = NULL;
+    m_bg = nullptr;
 
     prepareBg();
     prepareRack();
@@ -38,8 +38,8 @@ Pedometer::Pedometer(LevelStatus *status, Level *new_level)
             Path::dataReadPath("images/menu/numbers.png"));
 
     takeHandler(new PedoInput(this));
-    registerDrawable(m_bg);
-    registerDrawable(m_rack);
+    registerDrawable(m_bg.get());
+    registerDrawable(m_rack.get());
     registerDrawable(this);
 }
 //-----------------------------------------------------------------
@@ -49,8 +49,6 @@ Pedometer::~Pedometer()
         delete m_level;
     }
     SDL_DestroySurface(m_numbers);
-    delete m_rack;
-    delete m_bg;
 }
 //-----------------------------------------------------------------
 /**
@@ -74,7 +72,7 @@ Pedometer::prepareBg()
         m_bg->changePicture(bgSurface);
     }
     else {
-        m_bg = new Picture(bgSurface, V2(0, 0));
+        m_bg = std::make_unique<Picture>(bgSurface, V2(0, 0));
     }
 }
 //-----------------------------------------------------------------
@@ -84,7 +82,7 @@ Pedometer::prepareRack()
     static const int POS_X = 193;
     static const int POS_Y = 141;
 
-    m_rack = new LayeredPicture(
+    m_rack = std::make_unique<LayeredPicture>(
             Path::dataReadPath("images/menu/pedometer.png"),
             V2(POS_X, POS_Y),
             Path::dataReadPath("images/menu/pedometer_lower.png"),
@@ -155,7 +153,7 @@ Pedometer::runSelected()
 Pedometer::runLevel()
 {
     Level *levelState = m_level;
-    m_level = NULL;
+    m_level = nullptr;
     GameState *poster = m_status->createPoster();
     if (poster) {
         poster->setNextState(levelState);
@@ -170,7 +168,7 @@ Pedometer::runLevel()
 Pedometer::runReplay()
 {
     Level *levelState = m_level;
-    m_level = NULL;
+    m_level = nullptr;
     changeState(levelState);
     levelState->loadReplay(m_solution);
 }

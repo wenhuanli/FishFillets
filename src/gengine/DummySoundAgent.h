@@ -11,9 +11,9 @@ class DummySoundAgent : public SoundAgent {
         virtual void setSoundVolume(int ) {}
         virtual void setMusicVolume(int ) {}
     public:
-        virtual MIX_Audio *loadSound(const Path &) { return NULL; }
+        virtual MIX_Audio *loadSound(const Path &) { return nullptr; }
         virtual MIX_Track *playSound(MIX_Audio *, int /*volume*/, int /*loops*/)
-        { return NULL; }
+        { return nullptr; }
 
         virtual void playMusic(const Path &,
                 BaseMsg *finished)

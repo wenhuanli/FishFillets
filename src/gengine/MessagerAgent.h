@@ -14,7 +14,7 @@
 class MessagerAgent : public BaseAgent {
     AGENT(MessagerAgent, Name::MESSAGER_NAME);
     private:
-        typedef std::map<std::string,BaseListener*> t_listeners;
+        using t_listeners = std::map<std::string,BaseListener*>;
         t_listeners m_listeners;
     public:
         void addListener(BaseListener *listener);

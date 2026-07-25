@@ -17,15 +17,18 @@
 #include "minmax.h"
 
 //-----------------------------------------------------------------
+SubTitleAgent::SubTitleAgent() = default;
+//-----------------------------------------------------------------
     void
 SubTitleAgent::own_init()
 {
     m_limitY = TITLE_LIMIT_Y;
-    m_colors = new ResColorPack();
+    m_colors = std::make_unique<ResColorPack>();
 
-    m_font = NULL;
-    m_font = new Font(Path::dataReadPath("font/font_subtitle.ttf"), 20);
+    m_font = std::make_unique<Font>(Path::dataReadPath("font/font_subtitle.ttf"), 20);
 }
+//-----------------------------------------------------------------
+SubTitleAgent::~SubTitleAgent() = default;
 //-----------------------------------------------------------------
 /**
  * Shift all titles up.
@@ -48,10 +51,8 @@ SubTitleAgent::own_update()
 SubTitleAgent::own_shutdown()
 {
     removeAll();
-    delete m_colors;
-    if (m_font) {
-        delete m_font;
-    }
+    m_colors.reset();
+    m_font.reset();
 }
 
 //-----------------------------------------------------------------
@@ -148,7 +149,7 @@ SubTitleAgent::newShortSubtitle(const std::string &subtitle,
     int bonusTime = (TITLE_BASE - startY + m_limitY - TITLE_LIMIT_Y)
         / TITLE_SPEED;
     Title *title = new Title(startY, finalY, bonusTime, m_limitY,
-            subtitle, m_font, color);
+            subtitle, m_font.get(), color);
     shiftFinalsUp(TITLE_ROW);
     m_titles.push_back(title);
 }

@@ -16,8 +16,8 @@
 //-----------------------------------------------------------------
 DialogStack::DialogStack()
 {
-    m_dialogs = new ResDialogPack();
-    m_activeDialog = NULL;
+    m_dialogs = std::make_unique<ResDialogPack>();
+    m_activeDialog = nullptr;
 }
 //-----------------------------------------------------------------
 /**
@@ -26,7 +26,6 @@ DialogStack::DialogStack()
 DialogStack::~DialogStack()
 {
     removeAll();
-    delete m_dialogs;
 }
 //-----------------------------------------------------------------
 /**
@@ -174,7 +173,7 @@ void
 DialogStack::releaseDialog(PlannedDialog *dialog)
 {
     if (dialog == m_activeDialog) {
-        m_activeDialog = NULL;
+        m_activeDialog = nullptr;
     }
     dialog->killTalk();
     delete dialog;

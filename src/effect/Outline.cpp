@@ -51,7 +51,7 @@ Outline::drawOn(SDL_Surface *surface, Uint32 bgKey)
 void
 Outline::precomputePixel(const SDL_PixelFormatDetails *format)
 {
-    m_pixel = SDL_MapRGB(format, NULL, m_color.r, m_color.g, m_color.b);
+    m_pixel = SDL_MapRGB(format, nullptr, m_color.r, m_color.g, m_color.b);
 }
 //-----------------------------------------------------------------
 /**

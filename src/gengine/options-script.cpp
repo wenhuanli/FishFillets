@@ -24,7 +24,7 @@
 script_options_sendMsg(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
-    BaseMsg *message = NULL;
+    BaseMsg *message = nullptr;
     const char *listener = luaL_checkstring(L, 1);
     const char *msg = luaL_checkstring(L, 2);
     if (lua_isstring(L, 3)) {

@@ -35,7 +35,7 @@ GameAgent::own_init()
                     "worldmap", "script/worldmap.lua"));
         WorldMap *worldmap = new WorldMap();
         worldmap->initMap(pathMap);
-        m_manager->pushState(NULL, worldmap);
+        m_manager->pushState(nullptr, worldmap);
     } else {
         replaySolution(replayLevel);
     }
@@ -50,9 +50,9 @@ GameAgent::own_init()
     void
 GameAgent::replaySolution(const std::string &codename)
 {
-    static LevelStatus *levelStatus = NULL;
-    static DescFinder *desc = NULL;
-    if (levelStatus == NULL) {
+    static LevelStatus *levelStatus = nullptr;
+    static DescFinder *desc = nullptr;
+    if (levelStatus == nullptr) {
         levelStatus = new LevelStatus();
         desc = new WorldMap();
     }
@@ -66,7 +66,7 @@ GameAgent::replaySolution(const std::string &codename)
     level->fillStatus(levelStatus);
     level->fillDesc(desc);
 
-    m_manager->pushState(NULL, level);
+    m_manager->pushState(nullptr, level);
     level->loadReplay(moves);
 }
 //-----------------------------------------------------------------

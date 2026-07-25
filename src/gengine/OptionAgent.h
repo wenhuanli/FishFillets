@@ -7,6 +7,7 @@ class OptionParams;
 #include "BaseAgent.h"
 #include "Name.h"
 
+#include <memory>
 #include <string>
 #include <map>
 
@@ -17,7 +18,7 @@ class OptionAgent : public BaseAgent {
     AGENT(OptionAgent, Name::OPTION_NAME);
     private:
         static const char *CONFIG_FILE;
-        Environ *m_environ;
+        std::unique_ptr<Environ> m_environ;
     private:
         void prepareVersion();
         void prepareDataPaths();
@@ -36,6 +37,9 @@ class OptionAgent : public BaseAgent {
         virtual void own_init();
         virtual void own_shutdown();
     public:
+        OptionAgent();
+        ~OptionAgent();
+
         void parseCmdOpt(int argc, char *argv[],
                 const OptionParams &params);
         void setParam(const std::string &name, const std::string &value);

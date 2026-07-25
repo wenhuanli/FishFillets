@@ -30,7 +30,7 @@ class LevelNode : public NoCopy {
         V2 m_loc;
         eState m_state;
         int m_depth;
-        typedef std::vector<class LevelNode*> t_children;
+        using t_children = std::vector<class LevelNode*>;
         t_children m_children;
         int m_bestMoves;
         std::string m_bestAuthor;

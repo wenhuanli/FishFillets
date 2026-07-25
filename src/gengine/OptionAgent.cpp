@@ -43,6 +43,10 @@
 
 const char *OptionAgent::CONFIG_FILE = "script/options.lua";
 //-----------------------------------------------------------------
+OptionAgent::OptionAgent() = default;
+//-----------------------------------------------------------------
+OptionAgent::~OptionAgent() = default;
+//-----------------------------------------------------------------
 /**
  * Set user and sytem dir
  * and process "script/options.lua" - this will set user and system paths
@@ -51,7 +55,7 @@ const char *OptionAgent::CONFIG_FILE = "script/options.lua";
     void
 OptionAgent::own_init()
 {
-    m_environ = new Environ();
+    m_environ = std::make_unique<Environ>();
     prepareVersion();
     prepareDataPaths();
     prepareLang();
@@ -64,7 +68,7 @@ OptionAgent::own_init()
     void
 OptionAgent::own_shutdown()
 {
-    delete m_environ;
+    m_environ.reset();
 }
 //-----------------------------------------------------------------
 /**
@@ -119,7 +123,7 @@ OptionAgent::prepareLang()
     //NOTE: '.' will be decimal point for Lua
     setlocale(LC_NUMERIC, "C");
     if (getParam("lang").empty()) {
-        char *form = setlocale(LC_MESSAGES, NULL);
+        char *form = setlocale(LC_MESSAGES, nullptr);
         if (form) {
             int size = min(5, strlen(form));
             if (size >= 2) {
@@ -168,7 +172,7 @@ OptionAgent::parseDashOpt(const std::string &arg,
         throw HelpException(ExInfo(getVersionInfo()));
     }
     else if ("-c" == arg || "--config" == arg) {
-        throw HelpException(ExInfo(params.getConfig(m_environ)));
+        throw HelpException(ExInfo(params.getConfig(m_environ.get())));
     }
     else {
         throw LogicException(ExInfo("unknown option")
@@ -295,8 +299,8 @@ OptionAgent::setPersistent(const std::string &name, const std::string &value)
     //NOTE: path must be created before change of environ
     Path config = Path::dataWritePath(CONFIG_FILE);
 
-    Environ *swap_env = m_environ;
-    m_environ = new Environ();
+    std::unique_ptr<Environ> swap_env = std::move(m_environ);
+    m_environ = std::make_unique<Environ>();
 
     try {
         if (config.exists()) {
@@ -309,8 +313,7 @@ OptionAgent::setPersistent(const std::string &name, const std::string &value)
     setParam(name, value);
     m_environ->store(config);
 
-    delete m_environ;
-    m_environ = swap_env;
+    m_environ = std::move(swap_env);
     setParam(name, value);
 }
 //-----------------------------------------------------------------
@@ -360,7 +363,7 @@ OptionAgent::getHelpInfo(const OptionParams &params) const
     help += "  -c, --config             Show config\n";
     help += "\n";
     help += "Config variables:\n";
-    help += params.getHelp(m_environ);
+    help += params.getHelp(m_environ.get());
     return help;
 }
 //-----------------------------------------------------------------

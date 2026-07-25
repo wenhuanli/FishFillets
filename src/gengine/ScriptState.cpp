@@ -82,7 +82,7 @@ ScriptState::callStack(int error, int params, int returns)
 
     if (error) {
         const char *msg = lua_tostring(m_state, -1);
-        if (NULL == msg) {
+        if (nullptr == msg) {
             msg = "(error with no message)";
         }
         ExInfo info = ExInfo("script failure")

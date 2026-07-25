@@ -60,12 +60,12 @@ Controls::addUnit(Unit *unit)
 }
 //-----------------------------------------------------------------
 /**
- * Returns active unit or NULL.
+ * Returns active unit or nullptr.
  */
 const Unit *
 Controls::getActive()
 {
-    Unit *result = NULL;
+    Unit *result = nullptr;
     if (m_active != m_units.end()) {
         result = *m_active;
     }

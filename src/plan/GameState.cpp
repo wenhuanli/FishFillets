@@ -22,11 +22,11 @@
 //-----------------------------------------------------------------
 GameState::GameState()
 {
-    m_nextState = NULL;
-    m_handler = NULL;
+    m_nextState = nullptr;
+    m_handler = nullptr;
     m_active = false;
     m_onBg = false;
-    m_drawer = new MultiDrawer();
+    m_drawer = std::make_unique<MultiDrawer>();
 }
 //-----------------------------------------------------------------
 GameState::~GameState()
@@ -34,7 +34,6 @@ GameState::~GameState()
     if (m_handler) {
         delete m_handler;
     }
-    delete m_drawer;
 }
 //-----------------------------------------------------------------
 /**
@@ -132,7 +131,7 @@ GameState::cleanState()
 
     m_active = false;
     m_onBg = false;
-    m_manager = NULL;
+    m_manager = nullptr;
     removeWatchers();
     MessagerAgent::agent()->removeListener(getName());
 }
@@ -184,7 +183,7 @@ GameState::installHandlers()
 {
     LOG_DEBUG(ExInfo("installHandlers").addInfo("state", getName()));
     InputAgent::agent()->installHandler(m_handler);
-    VideoAgent::agent()->acceptDrawer(m_drawer);
+    VideoAgent::agent()->acceptDrawer(m_drawer.get());
 }
 //-----------------------------------------------------------------
 /**
@@ -193,8 +192,8 @@ GameState::installHandlers()
     void
 GameState::unHandlers()
 {
-    InputAgent::agent()->installHandler(NULL);
-    VideoAgent::agent()->removeDrawer(m_drawer);
+    InputAgent::agent()->installHandler(nullptr);
+    VideoAgent::agent()->removeDrawer(m_drawer.get());
 }
 
 //-----------------------------------------------------------------

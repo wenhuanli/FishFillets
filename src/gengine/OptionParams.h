@@ -26,7 +26,7 @@ class OptionParams : public NoCopy {
             Param(eType aType, const std::string &aHelp)
                 : type(aType), help(aHelp) {}
         };
-        typedef std::map<std::string,Param> t_params;
+        using t_params = std::map<std::string,Param>;
         t_params m_params;
         int m_maxSize;
     private:

@@ -19,6 +19,6 @@ EffectNone::blit(SDL_Surface *screen, SDL_Surface *surface, int x, int y)
     SDL_Rect rect;
     rect.x = x;
     rect.y = y;
-    SDL_BlitSurface(surface, NULL, screen, &rect);
+    SDL_BlitSurface(surface, nullptr, screen, &rect);
 }
 

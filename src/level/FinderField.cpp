@@ -10,31 +10,16 @@
 
 #include "V2.h"
 
-#include <string.h> // memset()
-
 //-----------------------------------------------------------------
 /**
  * Two dimensional array of booleans.
+ * NOTE: [y][x] indexes
  */
 FinderField::FinderField(int w, int h)
+    : m_closed(h, std::vector<bool>(w, false))
 {
     m_w = w;
     m_h = h;
-
-    //NOTE: [y][x] indexes
-    m_closed = new bool*[m_h];
-    for (int y = 0; y < m_h; ++y) {
-        m_closed[y] = new bool[m_w];
-        memset(m_closed[y], false, sizeof(bool) * m_w);
-    }
-}
-//-----------------------------------------------------------------
-FinderField::~FinderField()
-{
-    for (int y = 0; y < m_h; ++y) {
-        delete[] m_closed[y];
-    }
-    delete[] m_closed;
 }
 //-----------------------------------------------------------------
 /**
@@ -44,7 +29,7 @@ void
 FinderField::reset()
 {
     for (int y = 0; y < m_h; ++y) {
-        memset(m_closed[y], false, sizeof(bool) * m_w);
+        m_closed[y].assign(m_w, false);
     }
 }
 //-----------------------------------------------------------------

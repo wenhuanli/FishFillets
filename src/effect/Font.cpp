@@ -16,6 +16,7 @@
 
 #ifdef HAVE_FRIBIDI
 #include "fribidi.h"
+#include <vector>
 #endif
 
 std::string
@@ -23,28 +24,24 @@ Font::biditize(const std::string &text)
 {
 #ifdef HAVE_FRIBIDI
     FriBidiCharType base = FRIBIDI_TYPE_ON;
-    FriBidiChar *logicalString = new FriBidiChar[text.length() + 1];
-    FriBidiChar *visualString = new FriBidiChar[text.length() + 1];
+    std::vector<FriBidiChar> logicalString(text.length() + 1);
+    std::vector<FriBidiChar> visualString(text.length() + 1);
 
     int ucsLength = fribidi_charset_to_unicode(FRIBIDI_CHAR_SET_UTF8,
             const_cast<char*>(text.c_str()),
-            text.length(), logicalString);
-    fribidi_boolean ok = fribidi_log2vis(logicalString, ucsLength, &base,
-            visualString, NULL, NULL, NULL);
+            text.length(), logicalString.data());
+    fribidi_boolean ok = fribidi_log2vis(logicalString.data(), ucsLength, &base,
+            visualString.data(), nullptr, nullptr, nullptr);
     if (!ok) {
         LOG_WARNING(ExInfo("cannot biditize text")
                 .addInfo("text", text));
         return text;
     }
 
-    char *buffer = new char[text.length() + 1];
+    std::vector<char> buffer(text.length() + 1);
     int length = fribidi_unicode_to_charset(FRIBIDI_CHAR_SET_UTF8,
-            visualString, ucsLength, buffer);
-    std::string result = std::string(buffer, length);
-    delete[] buffer;
-    delete[] visualString;
-    delete[] logicalString;
-    return result;
+            visualString.data(), ucsLength, buffer.data());
+    return std::string(buffer.data(), length);
 #else
     return text;
 #endif
@@ -102,7 +99,7 @@ Font::shutdown()
 Font::calcTextWidth(const std::string &text)
 {
     int w;
-    TTF_GetStringSize(m_ttfont, text.c_str(), 0, &w, NULL);
+    TTF_GetStringSize(m_ttfont, text.c_str(), 0, &w, nullptr);
     return w;
 }
 //-----------------------------------------------------------------

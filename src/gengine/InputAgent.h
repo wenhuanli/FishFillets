@@ -10,6 +10,8 @@ class InputHandler;
 
 #include "SDL3/SDL.h"
 
+#include <memory>
+
 /**
  * Forward input events to handlers.
  */
@@ -17,7 +19,7 @@ class InputAgent : public BaseAgent {
     AGENT(InputAgent, Name::INPUT_NAME);
     private:
         const bool *m_keys;
-        KeyBinder *m_keyBinder;
+        std::unique_ptr<KeyBinder> m_keyBinder;
         InputHandler *m_handler;
     private:
         V2 getMouseState(Uint32 *out_buttons);
@@ -26,9 +28,12 @@ class InputAgent : public BaseAgent {
         virtual void own_update();
         virtual void own_shutdown();
     public:
+        InputAgent();
+        ~InputAgent();
+
         void installHandler(InputHandler *handler);
 
-        KeyBinder *keyBinder() { return m_keyBinder; }
+        KeyBinder *keyBinder() { return m_keyBinder.get(); }
 };
 
 #endif

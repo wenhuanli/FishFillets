@@ -10,6 +10,7 @@ class Picture;
 #include "GameState.h"
 
 #include "SDL3/SDL.h"
+#include <memory>
 #include <string>
 
 /**
@@ -17,8 +18,8 @@ class Picture;
  */
 class Pedometer : public GameState, public Drawable {
     private:
-        Picture *m_bg;
-        LayeredPicture *m_rack;
+        std::unique_ptr<Picture> m_bg;
+        std::unique_ptr<LayeredPicture> m_rack;
         SDL_Surface *m_numbers;
         LevelStatus *m_status;
         Level *m_level;

@@ -6,6 +6,8 @@
 
 #include "Log.h"
 
+#include <memory>
+
 template <class T>
 class CacheEntry {
     public:
@@ -15,7 +17,7 @@ class CacheEntry {
 
     CacheEntry() {
         name = "";
-        value = NULL;
+        value = nullptr;
         refcount = 0;
     }
 };
@@ -26,9 +28,9 @@ class CacheEntry {
 template <class T>
 class ResCache : public NoCopy {
     private:
-        typedef std::vector<class CacheEntry<T>*> t_entries;
+        using t_entries = std::vector<class CacheEntry<T>*>;
         t_entries m_entries;
-        ResourcePack<T> *m_unloader;
+        std::unique_ptr<ResourcePack<T>> m_unloader;
         unsigned int m_next_pos;
     public:
         /**
@@ -43,24 +45,23 @@ class ResCache : public NoCopy {
             }
 
             m_next_pos = 0;
-            m_unloader = new_unloader;
+            m_unloader.reset(new_unloader);
         }
 
         ~ResCache() {
             for (unsigned int i = 0; i < m_entries.size(); i++) {
                 delete m_entries[i];
             }
-            delete m_unloader;
         }
 
         /**
-         * Returns a found value or NULL.
+         * Returns a found value or nullptr.
          * The returned item should be released via release().
          */
         T get(const std::string &name) {
             CacheEntry<T> *entry = getEntry(name);
             if (!entry) {
-                return NULL;
+                return nullptr;
             }
 
             entry->refcount++;
@@ -79,7 +80,7 @@ class ResCache : public NoCopy {
                 return;
             }
 
-            if (entry->value != NULL) {
+            if (entry->value != nullptr) {
                 m_unloader->unloadRes(entry->value);
             }
             entry->name = name;
@@ -105,21 +106,21 @@ class ResCache : public NoCopy {
 
     private:
         /**
-         * Returns the matching CacheEntry or NULL.
+         * Returns the matching CacheEntry or nullptr.
          */
         CacheEntry<T> *getEntry(const std::string &name) {
             for (unsigned int i = 0; i < m_entries.size(); i++) {
                 CacheEntry<T> *entry = m_entries[i];
-                if (entry->value != NULL && entry->name == name) {
+                if (entry->value != nullptr && entry->name == name) {
                     return entry;
                 }
             }
 
-            return NULL;
+            return nullptr;
         }
 
         /**
-         * Returns the matching CacheEntry or NULL.
+         * Returns the matching CacheEntry or nullptr.
          */
         CacheEntry<T> *getByValue(T value) {
             for (unsigned int i = 0; i < m_entries.size(); i++) {
@@ -129,11 +130,11 @@ class ResCache : public NoCopy {
                 }
             }
 
-            return NULL;
+            return nullptr;
         }
 
         /**
-         * Returns a next unused CacheEntry or NULL when all entries are full.
+         * Returns a next unused CacheEntry or nullptr when all entries are full.
          */
         CacheEntry<T>* findNextUnusedEntry() {
             for (unsigned int attempt = 0; attempt < m_entries.size(); attempt++) {
@@ -145,7 +146,7 @@ class ResCache : public NoCopy {
                 }
             }
 
-            return NULL;
+            return nullptr;
         }
 };
 

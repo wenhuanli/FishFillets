@@ -58,7 +58,7 @@ NodeDrawer::drawNode(const LevelNode *node) const
     V2 loc = node->getLoc();
     drawDot(m_imagePack->getRes("far"), loc);
 
-    SDL_Surface *dot = NULL;
+    SDL_Surface *dot = nullptr;
     switch (node->getState()) {
         case LevelNode::STATE_FAR:
             return;
@@ -99,7 +99,7 @@ NodeDrawer::drawDot(SDL_Surface *dot, const V2 &loc) const
     SDL_Rect rect;
     rect.x = loc.getX() - dot->w / 2;
     rect.y = loc.getY() - dot->h / 2;
-    SDL_BlitSurface(dot, NULL, m_screen, &rect);
+    SDL_BlitSurface(dot, nullptr, m_screen, &rect);
 }
 //-----------------------------------------------------------------
 /**
@@ -131,7 +131,7 @@ NodeDrawer::drawSelected(const std::string &levelname) const
 
     SDL_Color color = {255, 255, 0, 255};
     SDL_Surface *surface = m_font->renderTextOutlined(levelname, color);
-    SDL_BlitSurface(surface, NULL, m_screen, &rect);
+    SDL_BlitSurface(surface, nullptr, m_screen, &rect);
     SDL_DestroySurface(surface);
 }
 //-----------------------------------------------------------------

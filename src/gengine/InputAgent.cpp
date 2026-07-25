@@ -20,6 +20,10 @@
 #include "SDL3/SDL.h"
 
 //-----------------------------------------------------------------
+InputAgent::InputAgent() = default;
+//-----------------------------------------------------------------
+InputAgent::~InputAgent() = default;
+//-----------------------------------------------------------------
 /**
  * Set console handler to ScriptAgent.
  *
@@ -28,9 +32,9 @@
     void
 InputAgent::own_init()
 {
-    m_keyBinder = new KeyBinder();
-    m_handler = NULL;
-    m_keys = SDL_GetKeyboardState(NULL);
+    m_keyBinder = std::make_unique<KeyBinder>();
+    m_handler = nullptr;
+    m_keys = SDL_GetKeyboardState(nullptr);
 }
 //-----------------------------------------------------------------
     void
@@ -79,14 +83,14 @@ InputAgent::own_update()
     void
 InputAgent::own_shutdown()
 {
-    delete m_keyBinder;
+    m_keyBinder.reset();
 }
 //-----------------------------------------------------------------
 void
 InputAgent::installHandler(InputHandler *handler)
 {
     if (m_handler) {
-        m_handler->takePressed(NULL);
+        m_handler->takePressed(nullptr);
         m_handler->mouseState(V2(-1, -1), 0);
     }
     m_handler = handler;

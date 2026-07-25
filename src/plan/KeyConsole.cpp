@@ -25,15 +25,12 @@
     KeyConsole::KeyConsole()
 :  m_color(0, 200, 0)
 {
-    m_font = new Font(Path::dataReadPath("font/font_console.ttf"), 16);
+    m_font = std::make_unique<Font>(Path::dataReadPath("font/font_console.ttf"), 16);
     takeHandler(new ConsoleInput(this));
     registerDrawable(this);
 }
 //-----------------------------------------------------------------
-KeyConsole::~KeyConsole()
-{
-    delete m_font;
-}
+KeyConsole::~KeyConsole() = default;
 //-----------------------------------------------------------------
 /**
  * Send console input to scriptAgent.
@@ -67,7 +64,7 @@ KeyConsole::drawOn(SDL_Surface *screen)
     rect.y = 10;
 
     SDL_Surface *surface = m_font->renderText("console] " + m_input, m_color);
-    SDL_BlitSurface(surface, NULL, screen, &rect);
+    SDL_BlitSurface(surface, nullptr, screen, &rect);
     SDL_DestroySurface(surface);
 }
 

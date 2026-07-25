@@ -17,7 +17,7 @@
 #include "BaseMsg.h"
 #include "OptionAgent.h"
 
-BaseMsg *SDLSoundAgent::ms_finished = NULL;
+BaseMsg *SDLSoundAgent::ms_finished = nullptr;
 //-----------------------------------------------------------------
 /**
  * Init sound subsystem.
@@ -42,7 +42,7 @@ SDLSoundAgent::own_shutdown()
 
     if (m_mixer) {
         MIX_DestroyMixer(m_mixer);
-        m_mixer = NULL;
+        m_mixer = nullptr;
     }
     MIX_Quit();
     SDL_QuitSubSystem(SDL_INIT_AUDIO);
@@ -54,9 +54,9 @@ SDLSoundAgent::own_shutdown()
     void
 SDLSoundAgent::reinit()
 {
-    m_mixer = NULL;
-    m_music = NULL;
-    m_musicTrack = NULL;
+    m_mixer = nullptr;
+    m_music = nullptr;
+    m_musicTrack = nullptr;
     m_soundVolume = 1.0f;
     m_musicVolume = 1.0f;
     if (!SDL_InitSubSystem(SDL_INIT_AUDIO)) {
@@ -82,13 +82,13 @@ SDLSoundAgent::reinit()
 //-----------------------------------------------------------------
 /**
  * Load unshared sound from file.
- * @return sound or NULL
+ * @return sound or nullptr
  */
     MIX_Audio *
 SDLSoundAgent::loadSound(const Path &file)
 {
     MIX_Audio *sound = MIX_LoadAudio(m_mixer, file.getNative().c_str(), false);
-    if (NULL == sound) {
+    if (nullptr == sound) {
         LOG_WARNING(ExInfo("cannot load sound")
                 .addInfo("path", file.getNative())
                 .addInfo("Mix", SDL_GetError()));
@@ -125,23 +125,23 @@ SDLSoundAgent::findFreeTrack()
  * @param volume percentage sound volume
  * @param loops numer of loops. 0=play once, 1=play twice, -1=play infinite
  *
- * @return track where the sound is played, or NULL on error or when
- * sound is NULL
+ * @return track where the sound is played, or nullptr on error or when
+ * sound is nullptr
  */
     MIX_Track *
 SDLSoundAgent::playSound(MIX_Audio *sound, int volume, int loops)
 {
-    MIX_Track *track = NULL;
+    MIX_Track *track = nullptr;
     if (sound) {
         track = findFreeTrack();
-        if (NULL == track
+        if (nullptr == track
                 || !MIX_SetTrackAudio(track, sound)
                 || !MIX_SetTrackLoops(track, loops))
         {
             //NOTE: maybe there are too few open channels
             LOG_WARNING(ExInfo("cannot play sound")
                     .addInfo("Mix", SDL_GetError()));
-            track = NULL;
+            track = nullptr;
         }
         else {
             MIX_SetTrackGain(track, m_soundVolume * volume / 100.0f);
@@ -182,7 +182,7 @@ SDLSoundAgent::setSoundVolume(int volume)
  * Play music.
  * @param file path to music file (i.e. *.ogg)
  * @param finished send this message when music is finished.
- * If finished is NULL, play music forever.
+ * If finished is nullptr, play music forever.
  */
 void
 SDLSoundAgent::playMusic(const Path &file,
@@ -190,7 +190,7 @@ SDLSoundAgent::playMusic(const Path &file,
 {
     // The same music is not restarted when it is not needed.
     if (m_playingPath == file.getPosixName()
-            && ms_finished == NULL && finished == NULL) {
+            && ms_finished == nullptr && finished == nullptr) {
         return;
     }
 
@@ -198,7 +198,7 @@ SDLSoundAgent::playMusic(const Path &file,
     m_playingPath = file.getPosixName();
 
     m_music = MIX_LoadAudio(m_mixer, file.getNative().c_str(), false);
-    if (NULL == m_music) {
+    if (nullptr == m_music) {
         LOG_WARNING(ExInfo("cannot play music")
                 .addInfo("music", file.getNative())
                 .addInfo("Mix", SDL_GetError()));
@@ -248,18 +248,18 @@ SDLSoundAgent::setMusicVolume(int volume)
 SDLSoundAgent::stopMusic()
 {
     if (m_musicTrack) {
-        MIX_SetTrackStoppedCallback(m_musicTrack, NULL, NULL);
+        MIX_SetTrackStoppedCallback(m_musicTrack, nullptr, nullptr);
         MIX_StopTrack(m_musicTrack, 0);
         MIX_DestroyTrack(m_musicTrack);
-        m_musicTrack = NULL;
+        m_musicTrack = nullptr;
     }
     if (m_music) {
         MIX_DestroyAudio(m_music);
-        m_music = NULL;
+        m_music = nullptr;
     }
     if (ms_finished) {
         delete ms_finished;
-        ms_finished = NULL;
+        ms_finished = nullptr;
     }
     m_playingPath = "";
 }
@@ -276,7 +276,7 @@ SDLSoundAgent::musicFinished(void * /*userdata*/, MIX_Track * /*track*/)
             ms_finished->sendClone();
         }
         else {
-            LOG_WARNING(ExInfo("NULL == ms_finished"));
+            LOG_WARNING(ExInfo("nullptr == ms_finished"));
         }
     }
     catch (std::exception &e) {

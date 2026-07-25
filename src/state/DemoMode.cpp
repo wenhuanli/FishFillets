@@ -25,8 +25,8 @@ DemoMode::DemoMode(const Path &demoscript)
     : m_demoscript(demoscript)
 {
     m_oldLimitY = 0;
-    m_display = NULL;
-    m_surfaceBuffer = NULL;
+    m_display = nullptr;
+    m_surfaceBuffer = nullptr;
     m_script->registerFunc("demo_display", script_demo_display);
     takeHandler(new DemoInput(this));
     registerDrawable(this);
@@ -65,11 +65,11 @@ DemoMode::own_cleanState()
     //NOTE: loaded dialogs are released by ~Planner()
     if (m_surfaceBuffer) {
         SDL_DestroySurface(m_surfaceBuffer);
-        m_surfaceBuffer = NULL;
+        m_surfaceBuffer = nullptr;
     }
     if (m_display) {
         delete m_display;
-        m_display = NULL;
+        m_display = nullptr;
     }
 
     SubTitleAgent::agent()->setLimitY(m_oldLimitY);
@@ -90,7 +90,7 @@ DemoMode::action_display(Picture *picture)
     }
     m_display = picture;
 
-    if (NULL == m_surfaceBuffer) {
+    if (nullptr == m_surfaceBuffer) {
         OptionAgent *options = OptionAgent::agent();
         options->setParam("screen_width", m_display->getW());
         options->setParam("screen_height", m_display->getH());
@@ -104,14 +104,14 @@ DemoMode::action_display(Picture *picture)
 void
 DemoMode::drawOn(SDL_Surface *screen)
 {
-    if (NULL == m_surfaceBuffer) {
+    if (nullptr == m_surfaceBuffer) {
         m_surfaceBuffer = SurfaceTool::createEmpty(screen);
     }
 
     if (m_display) {
         m_display->drawOn(m_surfaceBuffer);
     }
-    SDL_BlitSurface(m_surfaceBuffer, NULL, screen, NULL);
+    SDL_BlitSurface(m_surfaceBuffer, nullptr, screen, nullptr);
 }
 
 

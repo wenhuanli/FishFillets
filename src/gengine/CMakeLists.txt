@@ -1,9 +1,3 @@
-if(WITH_BOOST)
-    set(FSPATH_IMPL FsPath_boost.cpp)
-else()
-    set(FSPATH_IMPL FsPath.cpp)
-endif()
-
 add_library(gengine STATIC
     AgentPack.cpp AgentPack.h
     BaseAgent.cpp BaseAgent.h
@@ -64,9 +58,12 @@ add_library(gengine STATIC
     MultiDrawer.cpp MultiDrawer.h
     PathException.h
     Scripter.cpp Scripter.h
-    FsPath.h
-    ${FSPATH_IMPL}
+    FsPath.cpp FsPath.h
 )
 target_include_directories(gengine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(gengine PUBLIC fillets_deps SDL3_mixer::SDL3_mixer SDL3_image::SDL3_image)
-target_compile_definitions(gengine PRIVATE SYSTEM_DATA_DIR="${CMAKE_INSTALL_PREFIX}/${FILLETS_DATADIR}")
+target_compile_definitions(gengine PRIVATE
+    SYSTEM_DATA_DIR="${CMAKE_INSTALL_PREFIX}/${FILLETS_DATADIR}"
+    VERSION="${PROJECT_VERSION}"
+    PACKAGE="${PROJECT_NAME}"
+)

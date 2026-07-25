@@ -11,6 +11,7 @@ class DialogStack;
 #include "NoCopy.h"
 #include "Dir.h"
 
+#include <memory>
 #include <vector>
 
 /**
@@ -18,7 +19,7 @@ class DialogStack;
  */
 class Cube : public NoCopy {
     public:
-        typedef std::vector<Cube*> t_models;
+        using t_models = std::vector<Cube*>;
         enum eWeight {
             NONE,
             LIGHT,
@@ -41,9 +42,9 @@ class Cube : public NoCopy {
         bool m_lookLeft;
         bool m_lost;
 
-        Shape *m_shape;
-        Anim *m_anim;
-        Rules *m_rules;
+        std::unique_ptr<Shape> m_shape;
+        std::unique_ptr<Anim> m_anim;
+        std::unique_ptr<Rules> m_rules;
         Goal m_goal;
         Dir::eDir m_outDir;
         int m_outCapacity;
@@ -79,7 +80,7 @@ class Cube : public NoCopy {
 
         eWeight getWeight() const { return m_weight; }
         eWeight getPower() const { return m_power; }
-        const Shape *shape() const { return m_shape; }
+        const Shape *shape() const { return m_shape.get(); }
         Dir::eDir getLastMoveDir() const;
 
         bool isOutDir(Dir::eDir dir) const { return m_outDir == dir; }
@@ -95,10 +96,10 @@ class Cube : public NoCopy {
 
         bool isDisintegrated();
         bool isInvisible();
-        Anim *anim() { return m_anim; }
-        const Anim *const_anim() const { return m_anim; }
-        Rules *rules() { return m_rules; }
-        const Rules *const_rules() const { return m_rules; }
+        Anim *anim() { return m_anim.get(); }
+        const Anim *const_anim() const { return m_anim.get(); }
+        Rules *rules() { return m_rules.get(); }
+        const Rules *const_rules() const { return m_rules.get(); }
 
         virtual std::string toString() const;
 };

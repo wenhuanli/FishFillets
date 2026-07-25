@@ -24,7 +24,7 @@ Dialog::Dialog(const std::string &lang,
         const std::string &soundfile, const std::string &subtitle)
     : m_soundfile(soundfile), m_lang(lang), m_subtitle(subtitle)
 {
-    m_sound = NULL;
+    m_sound = nullptr;
 }
 //-----------------------------------------------------------------
 Dialog::~Dialog()
@@ -40,12 +40,12 @@ Dialog::~Dialog()
  *
  * @param volume sound volume
  * @param loops numer of loops. 0=play once, 1=play twice, -1=play infinite
- * @return track where the sound is played, or NULL
+ * @return track where the sound is played, or nullptr
  */
     MIX_Track *
 Dialog::talk(int volume, int loops) const
 {
-    if (NULL == m_sound && !m_soundfile.empty()) {
+    if (nullptr == m_sound && !m_soundfile.empty()) {
         Path soundPath = Path::dataReadPath(m_soundfile);
         m_sound = ResSoundPack::loadSound(soundPath);
     }

@@ -16,7 +16,7 @@
 FinderAlg::FinderAlg(int w, int h)
     : m_closed(w, h)
 {
-    m_unit = NULL;
+    m_unit = nullptr;
 }
 //-----------------------------------------------------------------
 /**

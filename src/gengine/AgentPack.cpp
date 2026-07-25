@@ -13,7 +13,7 @@
 #include "NameException.h"
 #include "MessagerAgent.h"
 
-AgentPack *AgentPack::ms_singleton = NULL;
+AgentPack *AgentPack::ms_singleton = nullptr;
 //-----------------------------------------------------------------
 AgentPack::AgentPack()
 {
@@ -35,7 +35,7 @@ AgentPack::~AgentPack()
     for (t_agents::iterator i = m_agents.begin(); i != end; ++i) {
         delete i->second;
     }
-    ms_singleton = NULL;
+    ms_singleton = nullptr;
 }
 //-----------------------------------------------------------------
 /**
@@ -86,7 +86,7 @@ AgentPack::removeAgent(const std::string &name)
     BaseAgent *
 AgentPack::getAgent(const std::string &name)
 {
-    if (NULL == ms_singleton) {
+    if (nullptr == ms_singleton) {
         throw LogicException(ExInfo("AgentPack is not ready"));
     }
 

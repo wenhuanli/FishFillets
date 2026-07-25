@@ -24,8 +24,8 @@
 WorldBranch::WorldBranch(LevelNode *root)
 {
     m_root = root;
-    m_ending = NULL;
-    m_outPack = NULL;
+    m_ending = nullptr;
+    m_outPack = nullptr;
 
     m_script->registerFunc("worldmap_addDesc", script_worldmap_addDesc);
     m_script->registerFunc("branch_addNode", script_branch_addNode);
@@ -39,7 +39,7 @@ WorldBranch::WorldBranch(LevelNode *root)
  * @param outEnding pointer to store ending node. It is not changed when
  * endingNode is set.
  * @param destPack pack to store node descriptions
- * @return root node (can be NULL)
+ * @return root node (can be nullptr)
  */
 LevelNode *
 WorldBranch::parseMap(const Path &datafile, LevelNode **outEnding,
@@ -47,7 +47,7 @@ WorldBranch::parseMap(const Path &datafile, LevelNode **outEnding,
 {
     m_outPack = destPack;
     scriptInclude(datafile);
-    m_outPack = NULL;
+    m_outPack = nullptr;
 
     if (m_ending) {
         if (outEnding) {

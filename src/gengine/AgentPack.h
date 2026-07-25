@@ -13,7 +13,7 @@ class BaseAgent;
  */
 class AgentPack : public NoCopy {
     private:
-        typedef std::map<std::string,BaseAgent*> t_agents;
+        using t_agents = std::map<std::string,BaseAgent*>;
         t_agents m_agents;
         static AgentPack *ms_singleton;
     public:

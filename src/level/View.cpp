@@ -27,7 +27,7 @@ View::View(const ModelList &models)
 {
     m_animShift = 0;
     m_shiftSize = SCALE;
-    m_screen = NULL;
+    m_screen = nullptr;
 }
 //-----------------------------------------------------------------
 View::~View()

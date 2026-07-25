@@ -42,7 +42,7 @@ ResDialogPack::matchScore(const std::string &first,
 }
 //-----------------------------------------------------------------
 /**
- * Return dialog or NULL.
+ * Return dialog or nullptr.
  * Compare dialog names and lang codes.
  * The best lang match is selected, at least two characters must equals.
  */
@@ -51,7 +51,7 @@ ResDialogPack::findDialog(const std::string &name,
         const std::string &lang)
 {
     int bestScore = 0;
-    Dialog *bestDialog = NULL;
+    Dialog *bestDialog = nullptr;
 
     t_range range = getRange(name);
     t_range::iterator end = range.end();
@@ -64,23 +64,23 @@ ResDialogPack::findDialog(const std::string &name,
     }
 
     if (bestScore < 2) {
-        bestDialog = NULL;
+        bestDialog = nullptr;
     }
     return bestDialog;
 }
 //-----------------------------------------------------------------
 /**
  * Try find dialog for current lang or default lang.
- * @return dialog or NULL
+ * @return dialog or nullptr
  */
     const Dialog *
 ResDialogPack::findDialogHard(const std::string &name)
 {
     std::string lang = OptionAgent::agent()->getParam("lang");
     const Dialog *dialog = findDialog(name, lang);
-    if (NULL == dialog) {
+    if (nullptr == dialog) {
         dialog = findDialog(name, Dialog::DEFAULT_LANG);
-        if (NULL == dialog) {
+        if (nullptr == dialog) {
             LOG_WARNING(ExInfo("cannot find dialog")
                     .addInfo("name", name)
                     .addInfo("lang", lang)
@@ -93,7 +93,7 @@ ResDialogPack::findDialogHard(const std::string &name)
 //-----------------------------------------------------------------
 /**
  * Try find dialog for lang=speech or default lang.
- * @return dialog or NULL
+ * @return dialog or nullptr
  */
     const Dialog *
 ResDialogPack::findDialogSpeech(const std::string &name)
@@ -101,9 +101,9 @@ ResDialogPack::findDialogSpeech(const std::string &name)
     std::string speech = OptionAgent::agent()->getParam("speech",
             OptionAgent::agent()->getParam("lang"));
     const Dialog *dialog = findDialog(name, speech);
-    if (NULL == dialog || dialog->isSpeechless()) {
+    if (nullptr == dialog || dialog->isSpeechless()) {
         dialog = findDialog(name, Dialog::DEFAULT_LANG);
-        if (NULL == dialog) {
+        if (nullptr == dialog) {
             LOG_WARNING(ExInfo("cannot find speech")
                     .addInfo("name", name)
                     .addInfo("speech", speech)

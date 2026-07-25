@@ -18,15 +18,12 @@
 //-----------------------------------------------------------------
 PosterState::PosterState(const Path &picture)
 {
-    m_bg = new Picture(picture, V2(0, 0));
+    m_bg = std::make_unique<Picture>(picture, V2(0, 0));
     takeHandler(new DemoInput(this));
-    registerDrawable(m_bg);
+    registerDrawable(m_bg.get());
 }
 //-----------------------------------------------------------------
-PosterState::~PosterState()
-{
-    delete m_bg;
-}
+PosterState::~PosterState() = default;
 //-----------------------------------------------------------------
     void
 PosterState::own_initState()

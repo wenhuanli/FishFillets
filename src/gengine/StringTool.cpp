@@ -24,7 +24,7 @@ StringTool::readInt(const char *strNum, bool *ok)
     long result = 0;
     *ok = false;
 
-    if (strNum != NULL) {
+    if (strNum != nullptr) {
         char *endptr;
         result = strtol(strNum, &endptr, 0);
         if (strNum[0] != '\0' && endptr[0] == '\0') {

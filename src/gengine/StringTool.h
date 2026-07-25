@@ -9,7 +9,7 @@
  */
 class StringTool {
     public:
-        typedef std::vector<std::string> t_args;
+        using t_args = std::vector<std::string>;
     public:
         static long readInt(const char *text, bool *ok);
         static std::string toString(long value);

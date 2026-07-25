@@ -20,13 +20,7 @@
 /**
  * Free all remain messages for watchers.
  */
-Environ::~Environ()
-{
-    t_watchers::iterator end = m_watchers.end();
-    for (t_watchers::iterator i = m_watchers.begin(); i != end; ++i) {
-        delete i->second;
-    }
-}
+Environ::~Environ() = default;
 //-----------------------------------------------------------------
 /**
  * Save params.
@@ -80,7 +74,6 @@ Environ::setParam(const std::string &name, const std::string &value)
                 }
                 catch (NameException &e) {
                     LOG_WARNING(e.info());
-                    delete cur_it->second;
                     m_watchers.erase(cur_it);
                 }
             }
@@ -191,7 +184,7 @@ Environ::getAsBool(const std::string &name,
     void
 Environ::addWatcher(const std::string &name, BaseMsg *msg)
 {
-    m_watchers.insert(std::pair<std::string,BaseMsg*>(name, msg));
+    m_watchers.emplace(name, std::unique_ptr<BaseMsg>(msg));
     LOG_DEBUG(ExInfo("add watcher")
             .addInfo("param", name)
             .addInfo("msg", msg->toString()));
@@ -207,7 +200,6 @@ Environ::removeWatchers(const std::string &listenerName)
     for (t_watchers::iterator i = m_watchers.begin(); i != end; /*empty*/) {
         t_watchers::iterator cur = i++;
         if (cur->second->getListenerName() == listenerName) {
-            delete cur->second;
             m_watchers.erase(cur);
         }
     }

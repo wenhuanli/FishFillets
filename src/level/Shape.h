@@ -13,8 +13,8 @@
  */
 class Shape : public NoCopy {
     public:
-        typedef std::vector<V2> t_marks;
-        typedef t_marks::const_iterator const_iterator;
+        using t_marks = std::vector<V2>;
+        using const_iterator = t_marks::const_iterator;
     private:
         t_marks m_marks;
         int m_w;

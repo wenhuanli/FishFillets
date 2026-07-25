@@ -38,7 +38,7 @@ Path::dataPath(const std::string &file, bool writeable)
     Path datapath = dataUserPath(file);
 
     if (!datapath.exists())  {
-        FILE *try_open = NULL;
+        FILE *try_open = nullptr;
         if (writeable) {
             try {
                 LOG_INFO(ExInfo("creating path")

@@ -11,7 +11,7 @@
  */
 class WiBox : public IWidget {
     protected:
-        typedef std::vector<IWidget*> t_widgets;
+        using t_widgets = std::vector<IWidget*>;
         t_widgets m_widgets;
         virtual std::string own_getTip(const V2 &loc);
         virtual void own_mouseButton(const MouseStroke &stroke);

@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.16)
 project(fillets VERSION 1.9 LANGUAGES C CXX)
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
 include(GNUInstallDirs)
 
 ###################################################
@@ -20,13 +24,6 @@ find_package(SDL3_ttf 3.0 REQUIRED CONFIG)
 find_package(PkgConfig REQUIRED)
 pkg_search_module(LUA REQUIRED IMPORTED_TARGET lua5.5 lua-5.5 "lua>=5.5")
 pkg_check_modules(FRIBIDI IMPORTED_TARGET fribidi)
-
-###################################################
-# Boost::filesystem (optional, only needed on non-POSIX systems)
-option(WITH_BOOST "Use boost::filesystem for the FsPath implementation" OFF)
-if(WITH_BOOST)
-    find_package(Boost REQUIRED COMPONENTS filesystem)
-endif()
 
 ###################################################
 # libm
@@ -77,9 +74,6 @@ target_compile_definitions(fillets_deps INTERFACE LUA_COMPAT_APIINTCASTS)
 if(FRIBIDI_FOUND)
     target_link_libraries(fillets_deps INTERFACE PkgConfig::FRIBIDI)
     target_compile_definitions(fillets_deps INTERFACE HAVE_FRIBIDI)
-endif()
-if(WITH_BOOST)
-    target_link_libraries(fillets_deps INTERFACE Boost::filesystem)
 endif()
 if(M_LIBRARY)
     target_link_libraries(fillets_deps INTERFACE ${M_LIBRARY})

@@ -6,12 +6,14 @@ class Picture;
 
 #include "GameState.h"
 
+#include <memory>
+
 /**
  * Static picture.
  */
 class PosterState : public GameState {
     protected:
-        Picture *m_bg;
+        std::unique_ptr<Picture> m_bg;
     protected:
         virtual void own_initState();
         virtual void own_updateState() {}

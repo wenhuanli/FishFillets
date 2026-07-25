@@ -10,6 +10,8 @@ class ResImagePack;
 
 #include "SDL3/SDL.h"
 
+#include <memory>
+
 /**
  * Animation sprite.
  */
@@ -20,7 +22,7 @@ class Anim : public NoCopy {
             SIDE_RIGHT = 1
         };
     private:
-        ViewEffect *m_effect;
+        std::unique_ptr<ViewEffect> m_effect;
         V2 m_viewShift;
         ResImagePack *m_animPack[2];
         std::string m_animName;

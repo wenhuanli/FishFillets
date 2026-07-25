@@ -20,7 +20,7 @@
 #include "game-script.h"
 #include "level-script.h"
 
-#include <memory> // for auto_ptr
+#include <memory> // for unique_ptr
 
 //-----------------------------------------------------------------
 /**
@@ -68,15 +68,15 @@ LevelScript::interruptPlan()
 /**
  * Add model at scene.
  * @param new_model new object
- * @param new_unit driver for the object or NULL
+ * @param new_unit driver for the object or nullptr
  * @return model index
  * @throws LogicException when room is not created yet
  */
     int
 LevelScript::addModel(Cube *new_model, Unit *new_unit)
 {
-    std::auto_ptr<Cube> ptr_model(new_model);
-    std::auto_ptr<Unit> ptr_unit(new_unit);
+    std::unique_ptr<Cube> ptr_model(new_model);
+    std::unique_ptr<Unit> ptr_unit(new_unit);
 
     ptr_model->takeDialogs(dialogs());
     return room()->addModel(ptr_model.release(), ptr_unit.release());

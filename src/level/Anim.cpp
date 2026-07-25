@@ -36,7 +36,7 @@
     m_run = false;
     m_specialAnimName = "";
     m_specialAnimPhase = 0;
-    m_effect = new EffectNone();
+    m_effect = std::make_unique<EffectNone>();
 }
 //-----------------------------------------------------------------
 Anim::~Anim()
@@ -45,7 +45,6 @@ Anim::~Anim()
     m_animPack[SIDE_RIGHT]->removeAll();
     delete m_animPack[SIDE_LEFT];
     delete m_animPack[SIDE_RIGHT];
-    delete m_effect;
 }
 //-----------------------------------------------------------------
 /**
@@ -170,19 +169,18 @@ Anim::useSpecialAnim(const std::string &name, int phase)
 //-----------------------------------------------------------------
 /**
  * Change effect.
- * @throws LogicException when new_effect is NULL.
+ * @throws LogicException when new_effect is nullptr.
  */
 void
 Anim::changeEffect(ViewEffect *new_effect)
 {
-    if (NULL == new_effect) {
-        throw LogicException(ExInfo("new_effect is NULL")
+    if (nullptr == new_effect) {
+        throw LogicException(ExInfo("new_effect is nullptr")
                 .addInfo("animName", m_animName)
                 .addInfo("specialAnimName", m_specialAnimName));
     }
 
-    delete m_effect;
-    m_effect = new_effect;
+    m_effect.reset(new_effect);
 }
 //-----------------------------------------------------------------
     int

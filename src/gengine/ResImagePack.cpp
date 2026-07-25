@@ -39,7 +39,7 @@ SDL_Surface *
 ResImagePack::loadImage(const Path &file)
 {
     SDL_Surface *surface = IMG_Load(file.getNative().c_str());
-    if (NULL == surface) {
+    if (nullptr == surface) {
         throw ImgException(ExInfo("Load")
                 .addInfo("file", file.getNative()));
     }

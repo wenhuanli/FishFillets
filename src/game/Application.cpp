@@ -175,7 +175,7 @@ Application::addSoundAgent()
 {
     //TODO: better setting sound on/off
     //TODO: move to the SoundAgent
-    SoundAgent *soundAgent = NULL;
+    SoundAgent *soundAgent = nullptr;
     if (OptionAgent::agent()->getAsBool("sound", true)) {
         soundAgent = new SDLSoundAgent();
         try {

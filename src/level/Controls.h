@@ -21,7 +21,7 @@ class MouseStroke;
  */
 class Controls : public StepCounter, public NoCopy {
     private:
-        typedef std::vector<Unit*> t_units;
+        using t_units = std::vector<Unit*>;
         t_units m_units;
         t_units::iterator m_active;
         int m_speedup;

@@ -16,7 +16,7 @@ class View : public Drawable {
     public:
         static const int SCALE = 15;
     private:
-        typedef std::vector<Decor*> t_decors;
+        using t_decors = std::vector<Decor*>;
         t_decors m_decors;
         ModelList m_models;
         int m_animShift;

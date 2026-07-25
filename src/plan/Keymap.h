@@ -13,7 +13,7 @@
  */
 class Keymap {
     private:
-        typedef std::map<KeyStroke,KeyDesc,stroke_less> t_keys;
+        using t_keys = std::map<KeyStroke,KeyDesc,stroke_less>;
         t_keys m_keys;
     public:
         void registerKey(const KeyStroke &stroke, const KeyDesc &desc);

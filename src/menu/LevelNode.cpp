@@ -88,7 +88,7 @@ LevelNode::isUnder(const V2 &cursor) const
 /**
  * Find selected node under cursor.
  * Only solved and open nodes are traversed.
- * @return selected node or NULL
+ * @return selected node or nullptr
  */
 LevelNode *
 LevelNode::findSelected(const V2 &cursor)
@@ -109,13 +109,13 @@ LevelNode::findSelected(const V2 &cursor)
             }
         }
     }
-    return NULL;
+    return nullptr;
 }
 //-----------------------------------------------------------------
 /**
  * Find next OPEN node.
- * @param current current selected node (could be NULL)
- * @return next OPEN node or NULL
+ * @param current current selected node (could be nullptr)
+ * @return next OPEN node or nullptr
  */
 LevelNode *
 LevelNode::findNextOpen(const LevelNode *current)
@@ -137,7 +137,7 @@ LevelNode::findNextOpen(const LevelNode *current)
         return opened[0];
     }
     else {
-        return NULL;
+        return nullptr;
     }
 }
 //-----------------------------------------------------------------
@@ -165,7 +165,7 @@ LevelNode::findOpenNodes()
 //-----------------------------------------------------------------
 /**
  * Find named node in whole tree.
- * @return named node or NULL
+ * @return named node or nullptr
  */
 LevelNode *
 LevelNode::findNamed(const std::string &codename)
@@ -184,7 +184,7 @@ LevelNode::findNamed(const std::string &codename)
             }
         }
     }
-    return NULL;
+    return nullptr;
 }
 //-----------------------------------------------------------------
 /**

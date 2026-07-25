@@ -11,20 +11,11 @@
 #include "Rules.h"
 #include "minmax.h"
 
-#include <string.h>
-
 //-----------------------------------------------------------------
     Landslip::Landslip(const ModelList &models)
-: m_models(models)
+: m_models(models), m_stoned(m_models.size(), false)
 {
     m_impact = Cube::NONE;
-    m_stoned = new bool[m_models.size()];
-    memset(m_stoned, false, sizeof(bool) * m_models.size());
-}
-//-----------------------------------------------------------------
-Landslip::~Landslip()
-{
-    delete[] m_stoned;
 }
 //-----------------------------------------------------------------
 /**

@@ -112,13 +112,13 @@ StateManager::popState(GameState *who)
 //-----------------------------------------------------------------
 /**
  * Insert new state after given state.
- * @param who active state or NULL to insert at the beginning
+ * @param who active state or nullptr to insert at the beginning
  * @param new_state state to insert
  */
 void
 StateManager::insertAfter(GameState *who, GameState *new_state)
 {
-    if (NULL == who) {
+    if (nullptr == who) {
         m_states.push_front(new_state);
     }
     else {
