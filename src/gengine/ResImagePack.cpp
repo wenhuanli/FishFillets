@@ -44,6 +44,23 @@ ResImagePack::loadImage(const Path &file)
                 .addInfo("file", file.getNative()));
     }
 
+    //NOTE: SDL3_image keeps low bit-depth palette PNGs packed multiple
+    //pixels per byte (e.g. SDL_PIXELFORMAT_INDEX4MSB); PixelTool's
+    //per-pixel access assumes at least one byte per pixel, so normalize
+    //such surfaces to full color up front.
+    const SDL_PixelFormatDetails *details =
+        SDL_GetPixelFormatDetails(surface->format);
+    if (details->bits_per_pixel < 8) {
+        SDL_Surface *converted =
+            SDL_ConvertSurface(surface, SDL_PIXELFORMAT_RGBA32);
+        SDL_DestroySurface(surface);
+        if (nullptr == converted) {
+            throw ImgException(ExInfo("Convert")
+                    .addInfo("file", file.getNative()));
+        }
+        surface = converted;
+    }
+
     return surface;
 }
 //-----------------------------------------------------------------
