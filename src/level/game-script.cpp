@@ -760,7 +760,7 @@ script_model_equals(lua_State *L) throw()
 //-----------------------------------------------------------------
 /**
  * void sound_addSound(name, file)
- * 
+ *
  * Store this sound resource under this name.
  */
     int
@@ -789,4 +789,3 @@ script_sound_playSound(lua_State *L) throw()
     END_NOEXCEPTION;
     return 0;
 }
-

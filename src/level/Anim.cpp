@@ -20,6 +20,7 @@
 #include "EffectInvisible.h"
 #include "EffectReverse.h"
 #include "EffectZx.h"
+#include "EffectDisintegrate.h"
 
 
 //-----------------------------------------------------------------
@@ -206,6 +207,9 @@ Anim::setEffect(const std::string &effectName) {
     }
     else if (EffectZx::NAME == effectName) {
         changeEffect(new EffectZx());
+    }
+    else if (EffectDisintegrate::NAME == effectName) {
+        changeEffect(new EffectDisintegrate());
     }
     else {
         ExInfo error = ExInfo("unknown view effect")
